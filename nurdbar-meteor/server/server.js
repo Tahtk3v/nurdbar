@@ -249,7 +249,7 @@ Meteor.methods({
     barcode = barcode || name;
     var item = getUserWithName(name);
     if (!item) {
-      if ( Barusers.insert({name:name,barcode:barcode,cash:0}) ) {
+      if ( Barusers.insert({name:name,barcode:barcode,cash:0,aliases:[]}) ) {
         log('User added: ' + name);
       }
     }
@@ -268,16 +268,18 @@ Meteor.methods({
 
   userAliases: function(name){
     var user = getUserWithName(name);
-    var aliases = user.aliases || false;
-    if (user && user.aliases){
-      if (user.aliases.length === 1) {
-        log(s.sprintf("User %s has aliases: %s", user.name, user.aliases[0]));
-      } else if (user.aliases.length === 2) {
-        var aliasListString = user.aliases.join(', ');
+    var aliases = user.aliases || [];
+    if (user && aliases){
+      if (aliases.length === 1) {
+        log(s.sprintf("User %s has aliases: %s", user.name, aliases[0]));
+      } else if (aliases.length === 2) {
+        var aliasListString = aliases.join(', ');
         log(s.sprintf("User %s has aliases: %s", user.name, aliasListString));
-      } else {
-        log(s.sprintf("User %s has no aliases."));
-      }
+      } 
+    } else if (user) {
+      log(s.sprintf("User %s has no aliases."));
+    } else {
+      log(s.sprintf("No user?"));
     }
   },
 
@@ -285,11 +287,12 @@ Meteor.methods({
     var item = getUserWithName(name);
     var aliasuser = getUserWithName(alias);
     if (!aliasuser) {
-      item.aliases = item.aliases || [];
+      if (!item.aliases) item['aliases'] = [];
       item.aliases.push(alias);
       Barusers.update(item._id,{$set:_.omit(item,'_id')})
+      log('alias "' + alias + '" added.');
     } else {
-      log('sry, alias base belong to ' + aliasuser);
+      log('sry, alias base belong to ' + aliasuser.name);
     }
   },
 
@@ -297,6 +300,7 @@ Meteor.methods({
     var item = getUserWithName(name);
     item.aliases = _.without(item.aliases,alias);
     Barusers.update(item._id,{$set:_.omit(item,'_id')})
+    log('alias removed.');
   },
 
   userBalance: function(name){
