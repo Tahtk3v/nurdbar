@@ -53,6 +53,15 @@ Bon = {
     this.list = list;
   },
 
+  total: function() {
+    var Bon = this;
+    var total = 0;
+    _.each(Bon.list, function(item, index) {
+        total = total + (item.amount * item.price);
+    });
+    return total;
+  },
+
   reset: function(msg, silent) {
     var self = this;
     this.timeout = null;
@@ -67,3 +76,4 @@ Bon = {
     }, 60000);
   }
 }
+

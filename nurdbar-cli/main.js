@@ -292,20 +292,30 @@ updateBarboxlist = function(list) {
   })
   var msgs = ['', '{center}RECEIPT{/center}', ' '];
   var lastName = '';
+  var lastType = '';
   _.each(items, function(item, index) {
-    if (lastName != item.userName) {
+    if (lastName != item.userName || lastType != item.type) {
       msgs.push('');
       var header = '' + item.type.toUpperCase();
       var header_width = barbox.width - 10 - item.userName.split('').length;
-      msgs.push(s.pad(header, header_width, ' ', 'right') + item.userName);
-      msgs.push(s.pad('', barbox.width - 10, '~', 'right'));
+      if (item.type==="Total"){ 
+        msgs.push(s.pad('', header_width, ' ', 'right'));
+        msgs.push(s.pad('', barbox.width - 10, '=', 'right'));
+      } else {
+        msgs.push(s.pad(header, header_width, ' ', 'right') + item.userName);
+        msgs.push(s.pad('', barbox.width - 10, '~', 'right'));
+      }
     }
     var price = item.price && s.sprintf(" € %.2f", item.price) || '';
     var col_right = '' + price;
-    var col_left = '' + item.amount + ' x ' + item.productName + ' ';
+    if (item.amount === 0)
+      var col_left = '' + item.productName + ' ';
+    else
+      var col_left = '' + item.amount + ' x ' + item.productName + ' ';
     var col_left_width = barbox.width - 10 - col_right.split('').length;
     msgs.push(s.pad(col_left, col_left_width, '.', 'right') + col_right);
     lastName = item.userName;
+    lastType = item.type;
     // barbox.scrollTo(msgs.length);
   })
   barbox.setContent(msgs.join('\n'));

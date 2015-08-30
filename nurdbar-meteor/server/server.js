@@ -93,12 +93,16 @@ Meteor.methods({
         _.each(Bon.list, function(item, index) {
           if  (item.userName === "Guest") {
             guestItemCount++;
-            Meteor.call('registerSell',item.productName, Bar.user.name, item.amount);
+            Meteor.call('registerSell',item.productName, Bar.user.name, item.amount, 1);
             Bon.list[index].userName = Bar.user.name;
           }
         });
         if (guestItemCount === 0) Bon.reset();
-        else Bar.logout();
+        else {
+          var total = Bon.total();
+          Bon.add({price: total, amount: 0, type:'Total', userName: Bar.user.name, productName: 'Total'});
+          Bar.logout();
+        }
       }
 
     } else if (product && !Bar.action && !Bar.user) {
@@ -160,14 +164,6 @@ Meteor.methods({
 
       } else if (product){
         Meteor.call('registerSell', product.barcode, Bar.user.name, 1);
-        Bon.timeoutRefresh(true);
-        Bon.add({
-          price: product.price,
-          productName: product.name,
-          amount: 1,
-          type: 'sell',
-          userName: Bar.user.name
-        });
         Bar.reset();
       }
 
@@ -331,7 +327,7 @@ Meteor.methods({
     }
   },
 
-  'registerSell': function(barcode, username, amount){
+  'registerSell': function(barcode, username, amount, nobon){
 
     if (amount === false) var amount = 1;
 
@@ -363,6 +359,16 @@ Meteor.methods({
         if (user.cash < 0.0) {
           log('!speak ' + user.name + ' has no moneyz!');
         }
+      }
+      if (!nobon) {
+        Bon.timeoutRefresh(true);
+        Bon.add({
+          price: product.price,
+          productName: product.name,
+          amount: 1,
+          type: 'sell',
+          userName: Bar.user.name
+        });
       }
     } else {
       log('\x0309meh.\x03')
