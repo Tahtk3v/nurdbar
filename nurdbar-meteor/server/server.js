@@ -275,7 +275,7 @@ Meteor.methods({
     if (user && aliases){
       if (aliases.length === 1) {
         log(s.sprintf("User %s has aliases: %s", user.name, aliases[0]));
-      } else if (user.aliases.length === 2) {
+      } else if (aliases.length === 2) {
         var aliasListString = aliases.join(', ');
         log(s.sprintf("User %s has aliases: %s", user.name, aliasListString));
       } 
