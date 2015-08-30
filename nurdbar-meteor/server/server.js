@@ -278,6 +278,7 @@ Meteor.methods({
     var item = getUserWithName(name);
     var aliasuser = getUserWithName(alias);
     if (!aliasuser) {
+      item.aliases = item.aliases || [];
       item.aliases.push(alias);
       Barusers.update(item._id,{$set:_.omit(item,'_id')})
     } else {
