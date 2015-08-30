@@ -1,0 +1,6 @@
+{
+  "server":"irc.oftc.net",
+  "channels":["#nurdbottest"],
+  "nickname":"nbargithub",
+  "realname":"nurdbar2"
+}

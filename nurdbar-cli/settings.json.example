@@ -1,0 +1,4 @@
+{
+  "serialport": "/dev/ttySCAN",
+  "server": "10.208.10.15"
+}

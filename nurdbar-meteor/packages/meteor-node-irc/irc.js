@@ -1,0 +1,2 @@
+IRC = Npm.require('irc');
+ 

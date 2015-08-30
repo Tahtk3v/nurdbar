@@ -1,0 +1,19 @@
+{
+  "name": "nurdbar-cli",
+  "description": "nurdbar",
+  "version": "0.0.1",
+  "author": "nooitaf <nooitaf@gmail.com>",
+  "license": "MIT",
+  "repository": "nooitaf/nurdbar",
+  "dependencies": {
+    "underscore": "latest",
+    "serialport": "latest",
+    "ddp": "latest",
+    "blessed": "latest",
+    "underscore.string": "latest",
+    "ddp-random": "latest"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
+  }
+}
