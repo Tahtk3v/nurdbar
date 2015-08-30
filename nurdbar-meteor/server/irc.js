@@ -1,4 +1,4 @@
-  z// code to run on server at startup
+// code to run on server at startup
 var irc_params = {
   server: Meteor.settings.server,
   port: 6667,
