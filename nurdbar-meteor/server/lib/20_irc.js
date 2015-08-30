@@ -98,17 +98,19 @@ Meteor.startup(function() {
             log('did i show it?')
           }
 
-          if (args[0] === '~alias+') {
+          if (args[0] === '~aliasadd') {
             var alias = args[1];
             if (alias) {
               Meteor.call('userAliasAdd',user,args[1])
             }
           }
 
-          if (args[0] === '~alias-') {
-            getAliases([user]);
+          if (args[0] === '~aliasremove') {
+            var alias = args[1];
+            if (alias) {
+              Meteor.call('userAliasRemove',user,args[1])
+            }
           }
-
 
           if (args[0] === '~barusers') {
             Meteor.call('userList')
