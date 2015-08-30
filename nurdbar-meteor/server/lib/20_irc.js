@@ -119,6 +119,9 @@ Meteor.startup(function() {
           if (args[0] === '~transactions') {
             Meteor.call('listTransactions')
           }
+          if (args[0] === '~help') {
+            Meteor.call('help')
+          }
         }
 
         if (args && args.length > 1) {
