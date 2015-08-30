@@ -34,6 +34,12 @@ capIrcMessages = function() {
 
 Meteor.startup(function() {
   irc = new IRC(irc_params);
+  
+  // clear old messages (quickfix)
+  IRCMessages.find().forEach(function(message){
+    IRCMessages.remove(message._id);
+  })
+
   irc.connect();
   var query = IRCMessages.find({}, {
     sort: {
@@ -71,7 +77,7 @@ Meteor.startup(function() {
 
       if (message) {
         var args = message.split(' ');
-        var user = from.toLowerCase();
+        var user = from;
         if (args && args.length === 1) {
 
           if (args[0] === '~help') {
