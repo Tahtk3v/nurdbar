@@ -8,7 +8,7 @@ Meteor.methods({
     Bar.timeoutRefresh(true);
     if ( args.length > 1 ) {
       if ( args[0] === "/nick" ) {
-        var user = getUserWihName(args[1]);
+        var user = getUserWithName(args[1]);
 
         if (user) {
           Bar.user = user;
@@ -25,7 +25,7 @@ Meteor.methods({
     }
 
     if (!Bar.user) {
-      var user = getUserWihName(scan);
+      var user = getUserWithName(scan);
 
       if (user) {
         Bar.user = user;
@@ -68,7 +68,7 @@ Meteor.methods({
     log('\x0304Scanned\x03 ' + scan, true);
     console.log('scan',scan);
 
-    var user = getUserWihName(scan);;
+    var user = getUserWithName(scan);;
     var product = Products.findOne({$or:[{barcode:scan},{name:scan}]});
 
     if (Bar.user === true) {
@@ -247,7 +247,7 @@ Meteor.methods({
     if (!name) return;
     name = name.toLowerCase();
     barcode = barcode || name;
-    var item = getUserWihName(name);
+    var item = getUserWithName(name);
     if (!item) {
       if ( Barusers.insert({name:name,barcode:barcode,cash:0}) ) {
         log('User added: ' + name);
@@ -256,12 +256,12 @@ Meteor.methods({
   },
 
   userRemove: function(name){
-    var item = getUserWihName(name);
+    var item = getUserWithName(name);
     if (item) Barusers.remove(item._id);
   },
 
   userUpdate: function(name,options){
-    var item = getUserWihName(name);
+    var item = getUserWithName(name);
     var _options = _.omit(options,['name','code']);
     if (item && _options) Barusers.update(item._id,{$set:_options});
   },
@@ -275,8 +275,8 @@ Meteor.methods({
   },
 
   userAliasAdd: function(name,alias){
-    var item = getUserWihName(name);
-    var aliasuser = getUserWihName(alias);
+    var item = getUserWithName(name);
+    var aliasuser = getUserWithName(alias);
     if (!aliasuser) {
       item.aliases.push(alias);
       Barusers.update(item._id,{$set:_.omit(item,'_id')})
@@ -286,14 +286,14 @@ Meteor.methods({
   },
 
   userAliasRemove: function(name,alias){
-    var item = getUserWihName(name);
+    var item = getUserWithName(name);
     item.aliases = _.without(item.aliases,alias);
     Barusers.update(item._id,{$set:_.omit(item,'_id')})
   },
 
   userBalance: function(name){
     console.log('userBalance: '+name);
-    var user = getUserWihName(name);
+    var user = getUserWithName(name);
     if (user) {
       log(s.sprintf("User %s has %.2f euro cash.", user.name, user.cash))
     }
@@ -301,7 +301,7 @@ Meteor.methods({
 
   userDeposit: function(name,amount){
     var deposit = parseFloat(amount);
-    var user = getUserWihName(name);
+    var user = getUserWithName(name);
     if (user) {
       user.cash = user.cash + deposit;
       Barusers.update(user._id,{$set:{cash:user.cash}});
@@ -320,7 +320,7 @@ Meteor.methods({
 
   userTake: function(name,amount){
     var deposit = parseFloat(amount) * -1;
-    var user = getUserWihName(name);
+    var user = getUserWithName(name);
     if (user) {
       user.cash = user.cash + deposit;
       Barusers.update(user._id,{$set:{cash:user.cash}});
@@ -357,7 +357,7 @@ Meteor.methods({
     if (amount === false) var amount = 1;
 
     var product = Products.findOne({$or:[{barcode:barcode},{name:barcode}]});
-    var user = getUserWihName(username);
+    var user = getUserWithName(username);
     if (  product
       &&  product.stock >= amount 
       &&  user
@@ -402,7 +402,7 @@ Meteor.methods({
 
   registerBuy: function(barcode, username, amount, price){
     var product = Products.findOne({$or:[{barcode:barcode},{name:barcode}]});
-    var user = getUserWihName(username);
+    var user = getUserWithName(username);
     if (  product &&  user ) {
       
       product.stock = product.stock + amount;
