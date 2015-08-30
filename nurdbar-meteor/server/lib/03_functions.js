@@ -47,3 +47,16 @@ getBuy = function(obj) { // {name:"",items:[]}
     Meteor.call('registerSell', item, obj.name)
   })
 }
+
+getUserWithName = function(query) {
+  query = query.toLowerCase();
+  return Barusers.findOne({
+      $or: [{
+        name: query
+      }, {
+        aliases: {
+          $in: [query]
+        }
+      }]);
+  }
+}

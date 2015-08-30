@@ -8,7 +8,7 @@ Meteor.methods({
     Bar.timeoutRefresh(true);
     if ( args.length > 1 ) {
       if ( args[0] === "/nick" ) {
-        var user = Barusers.findOne({name:args[1].toLowerCase()});
+        var user = getUserWihName(args[1]);
 
         if (user) {
           Bar.user = user;
@@ -25,7 +25,7 @@ Meteor.methods({
     }
 
     if (!Bar.user) {
-      var user = Barusers.findOne({name:scan.toLowerCase()});
+      var user = getUserWihName(scan);
 
       if (user) {
         Bar.user = user;
@@ -68,7 +68,7 @@ Meteor.methods({
     log('\x0304Scanned\x03 ' + scan, true);
     console.log('scan',scan);
 
-    var user = Barusers.findOne({name:scan});
+    var user = getUserWihName(scan);;
     var product = Products.findOne({$or:[{barcode:scan},{name:scan}]});
 
     if (Bar.user === true) {
@@ -256,19 +256,19 @@ Meteor.methods({
   },
 
   userRemove: function(name){
-    var item = Barusers.findOne({name:name.toLowerCase()});
+    var item = getUserWihName(name);
     if (item) Barusers.remove(item._id);
   },
 
   userUpdate: function(name,options){
-    var item = Barusers.findOne({name:name.toLowerCase()});
+    var item = getUserWihName(name);
     var _options = _.omit(options,['name','code']);
     if (item && _options) Barusers.update(item._id,{$set:_options});
   },
 
   userBalance: function(name){
     console.log('userBalance: '+name);
-    var user = Barusers.findOne({name:name.toLowerCase()});
+    var user = getUserWihName(name);
     if (user) {
       log(s.sprintf("User %s has %.2f euro cash.", user.name, user.cash))
     }
@@ -276,7 +276,7 @@ Meteor.methods({
 
   userDeposit: function(name,amount){
     var deposit = parseFloat(amount);
-    var user = Barusers.findOne({name:name.toLowerCase()});
+    var user = getUserWihName(name);
     if (user) {
       user.cash = user.cash + deposit;
       Barusers.update(user._id,{$set:{cash:user.cash}});
@@ -295,7 +295,7 @@ Meteor.methods({
 
   userTake: function(name,amount){
     var deposit = parseFloat(amount) * -1;
-    var user = Barusers.findOne({name:name.toLowerCase()});
+    var user = getUserWihName(name);
     if (user) {
       user.cash = user.cash + deposit;
       Barusers.update(user._id,{$set:{cash:user.cash}});
@@ -332,7 +332,7 @@ Meteor.methods({
     if (amount === false) var amount = 1;
 
     var product = Products.findOne({$or:[{barcode:barcode},{name:barcode}]});
-    var user = Barusers.findOne({name:username.toLowerCase()});
+    var user = getUserWihName(username);
     if (  product
       &&  product.stock >= amount 
       &&  user
@@ -377,7 +377,7 @@ Meteor.methods({
 
   registerBuy: function(barcode, username, amount, price){
     var product = Products.findOne({$or:[{barcode:barcode},{name:barcode}]});
-    var user = Barusers.findOne({name:username.toLowerCase()});
+    var user = getUserWihName(username);
     if (  product &&  user ) {
       
       product.stock = product.stock + amount;
