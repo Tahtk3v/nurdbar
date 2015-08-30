@@ -249,7 +249,7 @@ Meteor.methods({
     barcode = barcode || name;
     var item = getUserWithName(name);
     if (!item) {
-      if ( Barusers.insert({name:name,barcode:barcode,cash:0}) ) {
+      if ( Barusers.insert({name:name,barcode:barcode,cash:0,aliases:[]}) ) {
         log('User added: ' + name);
       }
     }
@@ -290,9 +290,9 @@ Meteor.methods({
       item['aliases'] = item.aliases || [];
       item.aliases.push(alias);
       Barusers.update(item._id,{$set:_.omit(item,'_id')})
-      log('alias "' + aliasuser + '" added.');
+      log('alias "' + alias + '" added.');
     } else {
-      log('sry, alias base belong to ' + aliasuser);
+      log('sry, alias base belong to ' + aliasuser.name);
     }
   },
 

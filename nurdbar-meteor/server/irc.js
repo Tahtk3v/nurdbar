@@ -99,7 +99,7 @@ Meteor.startup(function() {
           if (args[0] === '~aliasadd') {
             var alias = args[1];
             if (alias) {
-              Meteor.call('userAliasAdd',user,args[1])
+              Meteor.call('userAliasAdd',user,alias)
             }
           }
 
