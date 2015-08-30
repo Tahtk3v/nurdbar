@@ -7,7 +7,6 @@ Bar = {
     var self = this;
     if (this.timeout) {
       clearTimeout(self.timeout);
-      log(msg || '\x0309o/\x03')
     }
     this.timeout = null;
     this.action = null;
