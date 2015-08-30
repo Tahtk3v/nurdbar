@@ -1,37 +1,24 @@
 /// REST
 
-// Global API configuration
-var Api = new Restivus({
-  apiPath: 'api/',
-  defaultHeaders: {
-    'Content-Type': 'application/json'
-  },
-  prettyJson: true,
-  useDefaultAuth: true,
-  version: 'v1'
-});
-
-
-Api.addRoute('ping', {authRequired: false}, {
-  get: function() {
-    console.log('piiiiiiiing')
-    return {
-      status:"success",
-      message:"pong"
-    };
-  }
-});
-
-Api.addRoute('check/:name', {authRequired: false}, {
-  get: function() {
+Router.route('/check/:name', {where: 'server'})
+  .get(function () {
     console.log('check')
-    var name = this.urlParams.name;
+    var name = this.params.name.toString();
     if (name) {
       console.log('API: checking for name: ' + name)
-      return Barusers.findOne({name:name});
+      this.response.end(JSON.stringify(Barusers.findOne({name:name},{fields:{_id:0}}),null,2));
     } else {
-      return {status:"fail",message:"no name given"};
+      this.response.end({status:"fail",message:"no name given"});
     }
-  }
-});
+  })
 
+// returns
+/*
+
+{
+  "name": "nooitaf",
+  "barcode": "nooitaf",
+  "cash": 12
+}
+
+*/

@@ -10,5 +10,5 @@ nooitaf:irc
 underscorestring:underscore.string
 momentjs:moment
 nooitaf:colors
-nimble:restivus
 jameslefrere:irc
+iron:router
