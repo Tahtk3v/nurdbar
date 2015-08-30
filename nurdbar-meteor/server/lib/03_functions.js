@@ -62,5 +62,5 @@ getUserWithName = function(query) {
           $in: [query]
         }
       }]);
-  }
+  })
 }
