@@ -266,7 +266,7 @@ Meteor.methods({
     if (item && _options) Barusers.update(item._id,{$set:_options});
   },
 
-  userAliases: function(name,alias){
+  userAliases: function(name){
     var user = getUserWithName(name);
     if (user){
       var aliases = user.aliases.join(', ')

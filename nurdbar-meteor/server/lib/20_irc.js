@@ -93,7 +93,7 @@ Meteor.startup(function() {
           }
 
           if (args[0] === '~aliases') {
-            getAliases(user);
+            Meteor.call('userAliases', user);
           }
 
           if (args[0] === '~alias+') {
