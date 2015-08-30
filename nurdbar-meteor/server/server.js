@@ -327,7 +327,7 @@ Meteor.methods({
     }
   },
 
-  'registerSell': function(barcode, username, amount, nobon){
+  registerSell: function(barcode, username, amount, nobon){
 
     if (amount === false) var amount = 1;
 
