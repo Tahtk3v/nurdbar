@@ -16,7 +16,7 @@ insertIrcMessage = function(x) {
 }
 
 changeNick = function(name) {
-  var nick = name ? irc_nickname + '-' + name : irc_nickname;
+  var nick = name ? Meteor.settings.nickname + '-' + name : Meteor.settings.nickname;
   irc.send('NICK', nick);
   CURRENT_BAR_NAME = nick;
 }
