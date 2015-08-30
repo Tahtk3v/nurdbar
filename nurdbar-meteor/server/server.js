@@ -1,8 +1,8 @@
 
-Meteor.absoluteUrl('',{secure:true});
+// Meteor.absoluteUrl('',{secure:true});
 
 Meteor.methods({
-  'ircMessage': function(data){
+  ircMessage: function(data){
     var scan = data.message.replace(/\r\n/g,'').replace(/\n/g,'').toString();
     var args = scan.split(" ");
     Bar.timeoutRefresh(true);
@@ -45,22 +45,22 @@ Meteor.methods({
     return true;
   },
 
-  'getBarName': function(){
+  getBarName: function(){
     return CURRENT_BAR_NAME;
   },
 
-  'barLog': function(data){
+  barLog: function(data){
     console.log('Barlog:'.yellow, data);
     BarLog.insert({date:new Date().getTime(),data:data});
   },
 
   //Send items on the receipt to the client
-  'getBon': function(data){
+  getBon: function(data){
     return Bon.list; 
   },
 
   //Incomming messages from bar console
-  'barMessage': function(data){
+  barMessage: function(data){
     Bar.timeoutRefresh(true);
 
     var scan = data.message.replace(/\r\n/g,'').replace(/\n/g,'').toString();
@@ -197,7 +197,7 @@ Meteor.methods({
     return true;
   },
 
-  'productAdd' : function(barcode, name){
+  productAdd : function(barcode, name){
     var item = Products.findOne({barcode:barcode});
     if (!item) {
       if (Products.insert({barcode:barcode,stock:0,price:0.0,name:name||'unnamed'})) {
@@ -206,17 +206,17 @@ Meteor.methods({
     }
   },
 
-  'productRemove': function(barcode){
+  productRemove: function(barcode){
     var item = Products.findOne({barcode:barcode});
     if (item) Products.remove(item._id);
   },
 
-  'productUpdate': function(barcode,name){
+  productUpdate: function(barcode,name){
     var item = Products.findOne({barcode:barcode});
     if (item) Products.update(item._id,{$set:{barcode:barcode,name:name||'unnamed'}});
   },
 
-  'productStock': function(barcode){
+  productStock: function(barcode){
     barcode = barcode && barcode.trim() || "";
     var product = Products.findOne({$or:[{barcode:barcode},{name:barcode}] });
     if (product){
@@ -228,7 +228,7 @@ Meteor.methods({
     }
   },
 
-  'productList': function(){
+  productList: function(){
     console.log('Populating ProductList');
 
     Products.find({},{sort:{name:1, stock:1}}).forEach(function(item){
@@ -241,13 +241,13 @@ Meteor.methods({
     });
   },
 
-  'userList': function(){
+  userList: function(){
     console.log('Populating UsersList');
     log(_.pluck(Barusers.find({},{sort:{cash:1}}).fetch(),'name').join(', '));
     return _.pluck(Barusers.find({},{sort:{cash:1}}).fetch(),'name');
   },
 
-  'userAdd': function(name, barcode){
+  userAdd: function(name, barcode){
     if (!name) return;
     name = name.toLowerCase();
     barcode = barcode || name;
@@ -259,18 +259,18 @@ Meteor.methods({
     }
   },
 
-  'userRemove': function(name){
+  userRemove: function(name){
     var item = Barusers.findOne({name:name.toLowerCase()});
     if (item) Barusers.remove(item._id);
   },
 
-  'userUpdate': function(name,options){
+  userUpdate: function(name,options){
     var item = Barusers.findOne({name:name.toLowerCase()});
     var _options = _.omit(options,['name','code']);
     if (item && _options) Barusers.update(item._id,{$set:_options});
   },
 
-  'userBalance': function(name){
+  userBalance: function(name){
     console.log('userBalance: '+name);
     var user = Barusers.findOne({name:name.toLowerCase()});
     if (user) {
@@ -278,7 +278,7 @@ Meteor.methods({
     }
   },
 
-  'userDeposit': function(name,amount){
+  userDeposit: function(name,amount){
     var deposit = parseFloat(amount);
     var user = Barusers.findOne({name:name.toLowerCase()});
     if (user) {
@@ -297,7 +297,7 @@ Meteor.methods({
     }
   },
 
-  'userTake': function(name,amount){
+  userTake: function(name,amount){
     var deposit = parseFloat(amount) * -1;
     var user = Barusers.findOne({name:name.toLowerCase()});
     if (user) {
@@ -316,7 +316,7 @@ Meteor.methods({
     }
   },
 
-  'hallOfShame': function(){
+  hallOfShame: function(){
     var shames = Barusers.find({cash:{$lt:0}},{sort:{cash:-1}});
     shames.forEach(function(item){
       var row = '';
@@ -331,7 +331,7 @@ Meteor.methods({
     }
   },
 
-  'registerSell': function(barcode, username, amount){
+  registerSell: function(barcode, username, amount){
 
     if (amount === false) var amount = 1;
 
@@ -369,7 +369,7 @@ Meteor.methods({
     }
   },
 
-  'registerBuy': function(barcode, username, amount, price){
+  registerBuy: function(barcode, username, amount, price){
     var product = Products.findOne({$or:[{barcode:barcode},{name:barcode}]});
     var user = Barusers.findOne({name:username.toLowerCase()});
     if (  product &&  user ) {
@@ -392,7 +392,7 @@ Meteor.methods({
     }
   },
 
-  'listTransactions': function(){
+  listTransactions: function(){
     console.log('Populating Transactions');
     Book.find({},{sort:{date:1}}).forEach(function(item){
       var row = '';
@@ -417,17 +417,17 @@ Meteor.methods({
     })
   },
 
-  'help': function(){
+  help: function(){
     log("No help yet you can read the code (https://github.com/nooitaf/nurdbar/)",internal);
   },
 
-  'oldDataAddMembers': function(){
+  oldDataAddMembers: function(){
     _.each(oldData.members, function(member){
       Meteor.call('userAdd', member.nick, member.barcode);
     })
   },
 
-  'oldDataAddProducts': function(){
+  oldDataAddProducts: function(){
     _.each(oldData.items, function(product){
       _.each(oldData.barcodedesc, function(desc){
         if (desc.barcode === product.barcode){
