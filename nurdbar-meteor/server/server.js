@@ -267,17 +267,20 @@ Meteor.methods({
   },
 
   userAliases: function(name){
+    console.log('userAliases1',name);
     var user = getUserWithName(name);
-    var aliases = user.aliases || false;
-    if (user && user.aliases){
-      if (user.aliases.length === 1) {
-        log(s.sprintf("User %s has aliases: %s", user.name, user.aliases[0]));
+    console.log('userAliases2',user);
+    var aliases = user.aliases || [];
+    console.log('userAliases3',aliases);
+    if (user && aliases){
+      if (aliases.length === 1) {
+        log(s.sprintf("User %s has aliases: %s", user.name, aliases[0]));
       } else if (user.aliases.length === 2) {
-        var aliasListString = user.aliases.join(', ');
+        var aliasListString = aliases.join(', ');
         log(s.sprintf("User %s has aliases: %s", user.name, aliasListString));
-      } else {
-        log(s.sprintf("User %s has no aliases."));
-      }
+      } 
+    } else if (user) {
+      log(s.sprintf("User %s has no aliases."));
     }
   },
 
