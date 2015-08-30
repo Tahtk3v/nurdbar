@@ -267,11 +267,8 @@ Meteor.methods({
   },
 
   userAliases: function(name){
-    console.log('userAliases1',name);
     var user = getUserWithName(name);
-    console.log('userAliases2',user);
     var aliases = user.aliases || [];
-    console.log('userAliases3',aliases);
     if (user && aliases){
       if (aliases.length === 1) {
         log(s.sprintf("User %s has aliases: %s", user.name, aliases[0]));
@@ -281,6 +278,8 @@ Meteor.methods({
       } 
     } else if (user) {
       log(s.sprintf("User %s has no aliases."));
+    } else {
+      log(s.sprintf("No user?"));
     }
   },
 
