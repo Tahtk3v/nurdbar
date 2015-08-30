@@ -460,7 +460,7 @@ Meteor.methods({
     })
   },
 
-  help: function(){
+  help: function(internal){
     log("No help yet you can read the code (https://github.com/nooitaf/nurdbar/)",internal);
   },
 
