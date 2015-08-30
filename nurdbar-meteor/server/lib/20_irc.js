@@ -93,7 +93,9 @@ Meteor.startup(function() {
           }
 
           if (args[0] === '~aliases') {
+            log('let me lok up your alias...')
             Meteor.call('userAliases', user);
+            log('did i show it?')
           }
 
           if (args[0] === '~alias+') {
