@@ -96,20 +96,6 @@ Meteor.startup(function() {
             Meteor.call('userAliases', user);
           }
 
-          if (args[0] === '~aliasadd') {
-            var alias = args[1];
-            if (alias) {
-              Meteor.call('userAliasAdd',user,alias)
-            }
-          }
-
-          if (args[0] === '~aliasremove') {
-            var alias = args[1];
-            if (alias) {
-              Meteor.call('userAliasRemove',user,args[1])
-            }
-          }
-
           if (args[0] === '~barusers') {
             Meteor.call('userList')
           }
@@ -144,6 +130,20 @@ Meteor.startup(function() {
               name: from,
               items: queryList
             });
+          }
+
+          if (args[0] === '~aliasadd' && args[1]) {
+            var alias = args[1];
+            if (alias) {
+              Meteor.call('userAliasAdd',user,alias)
+            }
+          }
+
+          if (args[0] === '~aliasremove' && args[1]) {
+            var alias = args[1];
+            if (alias) {
+              Meteor.call('userAliasRemove',user,args[1])
+            }
           }
         }
       }
