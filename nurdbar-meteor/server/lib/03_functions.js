@@ -1,46 +1,49 @@
 //File with functions
 
 //Output to clients / IRC
-log = function(str,internal){
+log = function(str, internal) {
 
   console.log(str);
 
   if (internal != true)
-    irc.say(irc_channels[0],str);
+    irc.say(Meteor.settings.channels[0], str);
 
   str = str.replace(/(\x03\d{0,2}(,\d{0,2})?|\u200B)/g, '');
 
   if (Bar.user && Bar.user.name) {
-    new Fiber(function(){
-      // IRCVar.withValue({date:Date(),from:from,to:to,message:message},insertIrcMessage);
-      IrcFeed.insert({date:new Date().getTime(),from:irc_nickname+'-'+Bar.user.name,to:'*',message:str});
-    }).run();
+    IrcFeed.insert({
+      date: new Date().getTime(),
+      from: Meteor.settings.nickname + '-' + Bar.user.name,
+      to: '*',
+      message: str
+    });
   } else {
-    new Fiber(function(){
-      IrcFeed.insert({date:new Date().getTime(),from:irc_nickname,to:'*',message:str});
-    }).run();
+    IrcFeed.insert({
+      date: new Date().getTime(),
+      from: Meteor.settings.nickname,
+      to: '*',
+      message: str
+    });
   }
 
   capIrcMessages();
 
 }
 
-getStock = function(name){
-  _.each(IRCVar.get(), function(query){
-    Meteor.call('productStock',query)
+getStock = function(names) {
+  _.each(names, function(name) {
+    Meteor.call('productStock', name)
   })
 }
 
-getBalance = function(name,cb){
-  _.each(IRCVar.get(), function(query){
-    Meteor.call('userBalance',query)
+getBalance = function(names) {
+  _.each(names, function(name) {
+    Meteor.call('userBalance', name)
   })
 }
 
-getBuy = function(name,cb){
-  var data = IRCVar.get();
-  _.each(data.query, function(query){
-    Meteor.call('registerSell',query,data.name)
+getBuy = function(obj) { // {name:"",items:[]}
+  _.each(obj.items, function(item) {
+    Meteor.call('registerSell', item, obj.name)
   })
 }
-
