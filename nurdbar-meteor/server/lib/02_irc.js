@@ -71,6 +71,7 @@ Meteor.startup(function() {
 
       if (message) {
         var args = message.split(' ');
+        var user = from.toLowerCase();
         if (args && args.length === 1) {
 
           if (args[0] === '~help') {
@@ -82,8 +83,24 @@ Meteor.startup(function() {
           }
 
           if (args[0] === '~balance') {
-            getBalance([from.toLowerCase()]);
+            getBalance([user]);
           }
+
+          if (args[0] === '~aliases') {
+            getAliases([user]);
+          }
+
+          if (args[0] === '~alias+') {
+            var alias = args[1];
+            if (alias) {
+              Meteor.call('userAliasAdd',user,args[1])
+            }
+          }
+
+          if (args[0] === '~alias-') {
+            getAliases([user]);
+          }
+
 
           if (args[0] === '~barusers') {
             Meteor.call('userList')

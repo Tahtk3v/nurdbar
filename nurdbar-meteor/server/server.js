@@ -247,7 +247,7 @@ Meteor.methods({
     if (!name) return;
     name = name.toLowerCase();
     barcode = barcode || name;
-    var item = Barusers.findOne({$or:[{name:name},{barcode:barcode}]});
+    var item = getUserWihName(name);
     if (!item) {
       if ( Barusers.insert({name:name,barcode:barcode,cash:0}) ) {
         log('User added: ' + name);
@@ -264,6 +264,31 @@ Meteor.methods({
     var item = getUserWihName(name);
     var _options = _.omit(options,['name','code']);
     if (item && _options) Barusers.update(item._id,{$set:_options});
+  },
+
+  userAliases: function(name,alias){
+    var user = getUserWithName(name);
+    if (user){
+      var aliases = user.aliases.join(', ')
+      log(s.sprintf("User %s has aliases: %s", user.name, aliases));
+    }
+  },
+
+  userAliasAdd: function(name,alias){
+    var item = getUserWihName(name);
+    var aliasuser = getUserWihName(alias);
+    if (!aliasuser) {
+      item.aliases.push(alias);
+      Barusers.update(item._id,{$set:_.omit(item,'_id')})
+    } else {
+      log('sry, alias base belong to ' + aliasuser);
+    }
+  },
+
+  userAliasRemove: function(name,alias){
+    var item = getUserWihName(name);
+    item.aliases = _.without(item.aliases,alias);
+    Barusers.update(item._id,{$set:_.omit(item,'_id')})
   },
 
   userBalance: function(name){

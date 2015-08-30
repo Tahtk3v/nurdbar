@@ -42,6 +42,10 @@ getBalance = function(names) {
   })
 }
 
+getAliases = function(name) {
+  Meteor.call('userAliases', name);
+}
+
 getBuy = function(obj) { // {name:"",items:[]}
   _.each(obj.items, function(item) {
     Meteor.call('registerSell', item, obj.name)
