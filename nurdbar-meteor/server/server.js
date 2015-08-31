@@ -337,7 +337,7 @@ Meteor.methods({
       user.cash = user.cash + deposit;
       Barusers.update(user._id,{$set:{cash:user.cash}});
       Book.insert({
-          type:'deposit', 
+          type:'withdraw', 
           date:new Date().getTime(), 
           amount:deposit, 
           productId:0, 
