@@ -34,7 +34,6 @@ Router.route('/book/:name', {where: 'server'})
       var transactions = Book.find({userId:user._id},{sort:{date:-1}, fields:{_id:0, userId:0}, limit: 10}).fetch();
       var transactionsWithProducts = _.map(transactions, function(item){
         var product = Products.findOne({_id:item.productId});
-        item.date = moment(item.date).format('DD/MM hh:mm:ss');
         item.price = s.sprintf('%.2f',item.price||0.0);
         item['product'] = product;
         return item;
