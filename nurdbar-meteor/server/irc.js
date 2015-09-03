@@ -50,19 +50,10 @@ Meteor.startup(function() {
     added: function(id, ircMessageObject) {
       console.log("message added: ", ircMessageObject);
 
-      // {
-      //   handle: 'nnnbar',
-      //   channel: '#nurdbottest',
-      //   text: 'User nooitaf has 73.50 euro cash.',
-      //   date_time: Sun Aug 30 2015 13: 11: 10 GMT + 0200(CEST),
-      //   action: false,
-      //   irc: true,
-      //   bot: false,
-      //   colour: null
-      // }
-      var from = ircMessageObject.handle;
-      var to = ircMessageObject.channel;
+      var from    = ircMessageObject.handle;
+      var to      = ircMessageObject.channel;
       var message = ircMessageObject.text;
+      var action  = ircMessageObject.action;
 
       capIrcMessages();
 
@@ -70,7 +61,8 @@ Meteor.startup(function() {
         date: new Date().getTime(),
         from: from,
         to: to,
-        message: message
+        message: message,
+        action: action
       });
 
       console.log('from %j to %j : %j', from, to, message)
