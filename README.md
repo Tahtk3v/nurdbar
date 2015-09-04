@@ -1,5 +1,2 @@
 # NurdBar
-Barsystem build in Meteor  
-
-- requests:
-sound if on wall of shame on username activation on bar
+Barsystem build in Meteor and NodeJS  
