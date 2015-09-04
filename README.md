@@ -31,11 +31,12 @@ Edit `settings.json`:
   "realname": "nurbarbot"
 }
 ```
-Start the server option 1, using meteors build-in mongodb
+Start the server
+- option 1, using meteors build-in mongodb
 ```bash
 meteor --settings settings.json
 ```
-Start the server option 2, using your own mongodb
+- option 2, using your own mongodb
 ```bash
 export MONGO_URL=mongodb://localhost:27017/myapp; meteor --settings settings.json
 ```
