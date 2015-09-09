@@ -50,10 +50,13 @@ getBuy = function(obj) { // {name:"",items:[]}
 
 getUserWithName = function(query) {
   query = query;
+  if (!query) return false;
   return Barusers.findOne({
     $or: [{
       name: query.toLowerCase()
     }, {
+      barcode: query
+    },{
       aliases: {
         $in: [query]
       }
