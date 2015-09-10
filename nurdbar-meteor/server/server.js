@@ -262,7 +262,7 @@ Meteor.methods({
 
   userUpdate: function(name,options){
     var item = getUserWithName(name);
-    var _options = _.omit(options,['name','code']);
+    var _options = _.omit(options,['name','barcode']);
     if (item && _options) Barusers.update(item._id,{$set:_options});
   },
 
