@@ -123,10 +123,10 @@ Meteor.methods({
       if (scan.slice(0,4) === 'sell') {
         Bar.action = scan;
         scanSplit = scan.split(' ');
-        if (scanSplit.length == 4) {
+        if (scanSplit.length === 4) {
           Meteor.call('registerBuy', scanSplit[1], Bar.user.name, parseInt(scanSplit[2]), parseFloat(scanSplit[3]));
           Bar.reset();
-	    }
+        }
 
       } else if (scan.slice(0,7) === "useradd") {
         var name = scan.split(" ")[1];

@@ -5,25 +5,25 @@ Bar = {
 
   logout: function(msg, silent) {
     var self = this;
-    if (this.timeout) {
+    if (self.timeout) {
       clearTimeout(self.timeout);
     }
-    this.timeout = null;
-    this.action = null;
-    this.user = null;
+    self.timeout = null;
+    self.action = null;
+    self.user = null;
     changeNick();
   },
 
   reset: function(msg, silent) {
     var self = this;
-    this.timeout = null;
-    this.action = null;
+    self.timeout = null;
+    self.action = null;
   },
 
   timeoutRefresh: function(silent) {
     var self = this;
-    if (this.timeout) clearTimeout(self.timeout);
-    this.timeout = setTimeout(function() {
+    if (self.timeout) clearTimeout(self.timeout);
+    self.timeout = setTimeout(function() {
       self.logout()
     }, 60000);
     if (!silent) {
@@ -40,7 +40,7 @@ Bon = {
   add: function(addItem) {
     var self = this;
     var exists = false;
-    var list = this.list;
+    var list = self.list;
     _.each(list, function(item, index) {
       if (item.productName === addItem.productName) {
         list[index].amount = item.amount + addItem.amount;
@@ -49,13 +49,13 @@ Bon = {
     });
     if (exists === false)
       list.push(addItem);
-    this.list = list;
+    self.list = list;
   },
 
   total: function() {
-    var Bon = this;
+    var self = this;
     var total = 0;
-    _.each(Bon.list, function(item, index) {
+    _.each(self.list, function(item, index) {
         total = total + (item.amount * item.price);
     });
     return total;
@@ -63,14 +63,14 @@ Bon = {
 
   reset: function(msg, silent) {
     var self = this;
-    this.timeout = null;
-    this.list = [];
+    self.timeout = null;
+    self.list = [];
   },
 
   timeoutRefresh: function(silent) {
     var self = this;
-    if (this.timeout) clearTimeout(self.timeout);
-    this.timeout = setTimeout(function() {
+    if (self.timeout) clearTimeout(self.timeout);
+    self.timeout = setTimeout(function() {
       self.reset()
     }, 60000);
   }
