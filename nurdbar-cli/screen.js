@@ -109,8 +109,14 @@ renderIrc = function() {
     return item.date
   })
   _.each(items, function(item, index) {
-
-    var msg = '' + index + ' ' + item.from + ': ' + item.message;
+    var hr = item.date.getHours();
+    if (hr < 10) {
+        hr = "0" + hr;
+    var min = item.date.getMinutes();
+    if (min < 10) {
+        min = "0" + min;
+    }
+    var msg = '' + index + ' ['+hr+':'+min+'] ' + item.from + ': ' + item.message;
     ircboxlist.addItem(msg);
     // screen.log(msg);
     ircbox.scrollTo(ircboxlist.items.length);
