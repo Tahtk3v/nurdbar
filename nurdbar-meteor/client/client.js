@@ -5,7 +5,7 @@ Book = new Mongo.Collection('book');
 
 Meteor.subscribe('barusers');
 Meteor.subscribe('products');
-Meteor.subscribe('books');
+Meteor.subscribe('book');
 Meteor.subscribe('barlog');
 Meteor.subscribe('ircfeed');
 
