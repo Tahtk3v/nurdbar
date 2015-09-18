@@ -30,7 +30,7 @@ Meteor.methods({
       if (user) {
         Bar.user = user;
         Bar.action = "";
-        log('Hi ' + user.name + '!');
+        // log('Hi ' + user.name + '!');
         changeNick(user.name);
         return true;
       }
