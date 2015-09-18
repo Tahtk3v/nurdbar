@@ -13,7 +13,7 @@ Meteor.methods({
         if (user) {
           Bar.user = user;
           Bar.action = "";
-          log('Hi ' + user.name + '!');
+          //log('Hi ' + user.name + '!');
           changeNick(user.name);
 
         } else {
@@ -136,7 +136,7 @@ Meteor.methods({
       } else if (scan.slice(0,10) === "productadd") {
         var product = scan.split(" ");
         if (product[1] && _.rest(product,2)) {
-          Meteor.call('productAdd', product[1], product[2]);
+          Meteor.call('productAdd', product[1], _.rest(product,2));
         }
 
       } else if (scan === 'balance') {
