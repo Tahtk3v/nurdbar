@@ -24,10 +24,12 @@ Template.page.helpers({
   book: function(){
     return Book.find({},{sort:{date:-1}})
   },
-  productNameWithId: function(id){
-    return Products.findOne({_id:id}).name;
+  productNameWithId: function(){
+    var product = Products.findOne({_id:this.productId});
+    console.log(product);
+    return product && product.name;
   },
   nameWithUserId: function(id){
-    return Baruser.findOne({_id:id}).name;
+    return Baruser.findOne({_id:this.userId}).name;
   }
 })
