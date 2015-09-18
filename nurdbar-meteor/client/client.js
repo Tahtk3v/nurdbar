@@ -26,7 +26,7 @@ Template.page.helpers({
   },
   productNameWithId: function(id){
     return Products.findOne({_id:id}).name;
-  }
+  },
   nameWithUserId: function(id){
     return Baruser.findOne({_id:id}).name;
   }
