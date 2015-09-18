@@ -31,7 +31,7 @@ Template.page.helpers({
       return Products.findOne({_id:this.productId}).name;
     }
   },
-  nameWithUserId: function(){
+  userNameWithUserId: function(){
     return Barusers.findOne({_id:this.userId}).name;
   }
 })
