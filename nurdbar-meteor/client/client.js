@@ -23,5 +23,11 @@ Template.page.helpers({
   },
   book: function(){
     return Book.find({},{sort:{date:-1}})
+  },
+  productNameWithId: function(id){
+    return Products.findOne({_id:id}).name;
+  }
+  nameWithUserId: function(id){
+    return Baruser.findOne({_id:id}).name;
   }
 })

@@ -44,8 +44,8 @@
       <th>type</th>
       <th>date</th>
       <th>amount</th>
-      <th>productId</th>
-      <th>userId</th>
+      <th>product</th>
+      <th>user</th>
       <th>price</th>
     </tr>
     {{#each book}}
@@ -53,8 +53,8 @@
       <td><b>{{type}}</b></td>
       <td>{{date}}</td>
       <td>{{amount}}</td>
-      <td>{{productId}}</td>
-      <td>{{userId}}</td>
+      <td>{{productNameWithId productId}}</td>
+      <td>{{userNameWithUserId userId}}</td>
       <td>{{price}}</td>
     </tr>
     {{/each}}
