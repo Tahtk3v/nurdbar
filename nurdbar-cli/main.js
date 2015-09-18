@@ -112,15 +112,23 @@ renderIrc = function() {
     return item.date
   })
   _.each(items, function(item, index) {
-
-    //var msg = '' + item.date + '_' + index + ' ' + item.from + ': ' + item.message;
-    var msg = '{#33ff33-fg}' + item.from + '{/#33ff33-fg}: ' + item.message;
+    console.log(item);
+    var hr = item.date.getHours();
+    if (hr < 10) {
+        hr = "0" + hr;
+    var min = item.date.getMinutes();
+    if (min < 10) {
+        min = "0" + min;
+    }
+    var msg = '' + index + ' ['+hr+':'+min+'] ' + item.from + ': ' + item.message;
     ircboxlist.addItem(msg);
     // screen.log(msg);
     ircbox.scrollTo(ircboxlist.items.length);
   })
-  screen.log(ircboxlist.items.length);
+  //screen.log(ircboxlist.items.length);
   screen.render();
+
+
 }
 
 setInterval(renderIrc, 500);
