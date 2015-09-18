@@ -10,6 +10,22 @@ IrcFeed = new Mongo.Collection('ircfeed', {
 });
 BarLog = new Mongo.Collection('barlog');
 
+Meteor.publish('barusers', function() {
+  return Barusers.find({}, {
+    sort: {
+      name: 1
+    }
+  });
+})
+
+Meteor.publish('products', function() {
+  return Products.find({}, {
+    sort: {
+      name: 1
+    }
+  });
+})
+
 Meteor.publish('book', function() {
   return Book.find({}, {
     sort: {

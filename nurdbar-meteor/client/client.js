@@ -1,8 +1,13 @@
 Products = new Mongo.Collection('products');
 Barusers = new Mongo.Collection('barusers');
-Book = new Mongo.Collection('book');
 BarLog = new Mongo.Collection('barlog');
+Book = new Mongo.Collection('book');
 
+Meteor.subscribe('barusers');
+Meteor.subscribe('products');
+Meteor.subscribe('books');
+Meteor.subscribe('barlog');
+Meteor.subscribe('ircfeed');
 
 Router.route('/', function () {
   this.render('page');
