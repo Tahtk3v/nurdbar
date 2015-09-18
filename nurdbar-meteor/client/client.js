@@ -22,9 +22,6 @@ Template.page.helpers({
     return Barusers.find({},{sort:{name:1}})
   },
   book: function(){
-    return Book.find()
-  },
-  barlog: function(){
-    return Barlog.find()
+    return Book.find({},{sort:{date:-1}})
   }
 })

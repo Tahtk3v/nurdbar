@@ -11,12 +11,52 @@
       <th>Barcode</th>
     </tr>
     {{#each products}}
-      <tr>
-        <td><b>{{name}}</b></td>
-        <td>{{stock}}</td>
-        <td>{{price}}</td>
-        <td>{{barcode}}</td>
-      </tr>
+    <tr>
+      <td><b>{{name}}</b></td>
+      <td>{{stock}}</td>
+      <td>{{price}}</td>
+      <td>{{barcode}}</td>
+    </tr>
+    {{/each}}
+  </table>
+  
+  <h2>Barusers:</h2>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Cash</th>
+      <th>Barcode</th>
+      <th>Aliases</th>
+    </tr>
+    {{#each barusers}}
+    <tr>
+      <td><b>{{name}}</b></td>
+      <td>{{cash}}</td>
+      <td>{{barcode}}</td>
+      <td>{{#each aliases}}{{this}}{{/each}}</td>
+    </tr>
+    {{/each}}
+  </table>
+
+  <h2>Book:</h2>
+  <table>
+    <tr>
+      <th>type</th>
+      <th>date</th>
+      <th>amount</th>
+      <th>productId</th>
+      <th>userId</th>
+      <th>price</th>
+    </tr>
+    {{#each book}}
+    <tr>
+      <td><b>{{type}}</b></td>
+      <td>{{date}}</td>
+      <td>{{amount}}</td>
+      <td>{{productId}}</td>
+      <td>{{userId}}</td>
+      <td>{{price}}</td>
+    </tr>
     {{/each}}
   </table>
 </template>
