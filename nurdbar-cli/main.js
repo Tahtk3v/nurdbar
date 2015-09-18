@@ -113,8 +113,8 @@ renderIrc = function() {
     return item.date
   })
   _.each(items, function(item, index) {
-    var dateString = moment(item.date).format(' \\[HH:mm\\] ');'' + item.from + ''
-    var msg = '{#0000ff-fg}' + dateString + '{/#0000ff-fg} {#33ff33-fg} '+ item.from + ':{/#33ff33-fg} ' + item.message;
+    var dateString = moment(item.date).format('\\[HH:mm\\]');'' + item.from + ''
+    var msg = '{#0000ff-fg}' + dateString + '{/#0000ff-fg} {#33ff33-fg}'+ item.from + ':{/#33ff33-fg} ' + item.message;
     ircboxlist.addItem(msg);
     // screen.log(msg);
     ircbox.scrollTo(ircboxlist.items.length);

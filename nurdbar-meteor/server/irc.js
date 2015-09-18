@@ -8,7 +8,7 @@ var irc_params = {
   username: Meteor.settings.nickname,
   channels: Meteor.settings.channels,
   debug: true,
-  stripColors: true
+  stripColors: false
 };
 
 insertIrcMessage = function(x) {
