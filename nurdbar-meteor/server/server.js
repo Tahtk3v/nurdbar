@@ -135,7 +135,7 @@ Meteor.methods({
 
       } else if (scan.slice(0,10) === "productadd") {
         var product = scan.split(" ");
-        if (product[1] && product[2]) {
+        if (product[1] && _.rest(product,2)) {
           Meteor.call('productAdd', product[1], product[2]);
         }
 
