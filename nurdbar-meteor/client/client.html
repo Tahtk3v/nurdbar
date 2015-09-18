@@ -3,12 +3,20 @@
 
 <template name="page">
   <h2>Products:</h2>
-  {{#each products}}
-    <p>
-      <h4>{{name}}</h4>
-      Stock: {{stock}} 
-      Price: {{price}} 
-      Barcode: {{barcode}} 
-    </p>
-  {{/each}}
+  <table>
+    <tr>
+      <td>Name</b></td>
+      <td>Stock</td>
+      <td>Price</td>
+      <td>Barcode</td>
+    </tr>
+    {{#each products}}
+      <tr>
+        <td><b>{{name}}</b></td>
+        <td>{{stock}}</td>
+        <td>{{price}}</td>
+        <td>{{barcode}}</td>
+      </tr>
+    {{/each}}
+  </table>
 </template>
