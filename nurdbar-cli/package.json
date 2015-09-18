@@ -11,7 +11,8 @@
     "ddp": "latest",
     "blessed": "latest",
     "underscore.string": "latest",
-    "ddp-random": "latest"
+    "ddp-random": "latest",
+    "moment": "latest"
   },
   "engines": {
     "node": ">= 0.10.0"

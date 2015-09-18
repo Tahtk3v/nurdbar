@@ -3,6 +3,7 @@ IRCFEED_LIMIT = 32;
 var _ = require('underscore');
 var blessed = require('blessed');
 var s = require('underscore.string');
+var moment = require('moment')
 
 var config = require('./settings.json');
 
@@ -112,23 +113,14 @@ renderIrc = function() {
     return item.date
   })
   _.each(items, function(item, index) {
-    console.log(item);
-    var hr = item.date.getHours();
-    if (hr < 10) {
-        hr = "0" + hr;
-    var min = item.date.getMinutes();
-    if (min < 10) {
-        min = "0" + min;
-    }
-    var msg = '' + index + ' ['+hr+':'+min+'] ' + item.from + ': ' + item.message;
+    var dateString = moment(item.date).format(' \\[HH:mm\\] ');'' + item.from + ''
+    var msg = '{#0000ff-fg}' + dateString + '{/#0000ff-fg} {#33ff33-fg} '+ item.from + ':{/#33ff33-fg} ' + item.message;
     ircboxlist.addItem(msg);
     // screen.log(msg);
     ircbox.scrollTo(ircboxlist.items.length);
   })
   //screen.log(ircboxlist.items.length);
   screen.render();
-
-
 }
 
 setInterval(renderIrc, 500);
