@@ -2,5 +2,13 @@
 <body></body>
 
 <template name="page">
-  notting here
+  <h2>Products:</h2>
+  {{#each products}}
+    <p>
+      <h4>{{name}}</h4>
+      Stock: {{stock}} 
+      Price: {{price}} 
+      Barcode: {{barcode}} 
+    </p>
+  {{/each}}
 </template>
