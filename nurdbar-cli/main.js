@@ -107,35 +107,50 @@ var ircboxlist = blessed.list({
   }
 })
 
-
 renderIrc = function() {
   ircboxlist.clearItems();
   var items = _.sortBy(ddpclient.collections.ircfeed, function(item) {
     return item.date
   })
+  items = _.last(items,ircboxlist.height);
+  extraLineCount = 0;
+  var bucket = [];
   _.each(items, function(item, index) {
-    var dateString = moment(item.date).format('\\[HH:mm\\]');'' + item.from + '';
+    var dateString = moment(item.date).format('HH:mm');'' + item.from + '';
     var prefix = '{#0000ff-fg}' + dateString + '{/#0000ff-fg} {#33ff33-fg}'+ item.from + ':{/#33ff33-fg} ';
     var fromFill = [];
     fromFill[item.from.length] = "";
-    var prefixFill = '        {#333333-fg}' + fromFill.join("|") + '{/#333333-fg}  ';
-    var msg = prefix + item.message;
-    if (msg.length > 40) {
-      var partsString = s.wrap(msg, { width:140, cut:false, seperator:'____-____', preserveSpaces: true })
+    var prefixFill = '       ' + fromFill.join(" ") + ' ';
+    var msg = prefixFill + item.message;
+    screen.log('prefixFill:',prefixFill.length);
+    if (msg.length > 70) {
+      var maxWidth = ircboxlist.width-2 - prefixFill.length;
+      var partsString = s.wrap(msg.slice(prefixFill.length-1,-1), { width:maxWidth, cut:false, seperator:'____-____', preserveSpaces: true })
       var parts = partsString.split('____-____');
+      screen.log('parts length: ',parts)
       // first line with date and name
-      ircboxlist.addItem(parts.shift());
+      var firstPart = parts.shift() || "";
+      bucket.push(prefix + firstPart)
       // rest of the lines
       _.each(parts, function(part){
-        ircboxlist.addItem('' + prefixFill + part);
+        bucket.push('' + prefixFill + part)
+        extraLineCount++;
       })
     } else {
-      ircboxlist.addItem(msg);    
+      bucket.push(prefix + msg.slice(prefixFill.length))
     }
-    // screen.log(msg);
-    ircbox.scrollTo(ircboxlist.items.length);
   })
-  //screen.log(ircboxlist.items.length);
+
+  bucket = _.last(bucket,ircboxlist.height-2);
+  _.each(bucket, function(item){
+    ircboxlist.addItem(item);
+  })
+
+  ircbox.scrollTo(ircboxlist.height);
+
+  // IRCFEED_LIMIT = 3;
+  screen.log(ircboxlist.height);
+
   screen.render();
 }
 
@@ -144,6 +159,7 @@ setInterval(renderIrc, 500);
 screen.on('resize', function() {
   screen.log('IRCFEED_LIMIT: ' + IRCFEED_LIMIT);
   IRCFEED_LIMIT = ircboxlist.height;
+  renderIrc();
   //logo.setContent(screen.width > 120 ? asciiText('harkbar') : 'HarkBar');
 });
 
@@ -279,13 +295,14 @@ var barbox = blessed.box({
   tags: true,
   // input:true,
   border: {
-    type: 'line'
+    type: 'bg',
+    ch: '/'
   },
   style: {
     fg: '#cccccc',
-    bg: '#555555',
+    bg: '#333333',
     border: {
-      fg: '#555555',
+      fg: '#55ff55',
       bg: '#333333'
     },
     focus: {
