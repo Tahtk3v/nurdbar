@@ -1,8 +1,8 @@
 IRCFEED_LIMIT = 32;
 
 var _ = require('underscore');
-var blessed = require('blessed');
 var s = require('underscore.string');
+var blessed = require('blessed');
 var moment = require('moment')
 
 var config = require('./settings.json');
@@ -11,6 +11,8 @@ var config = require('./settings.json');
 screen = blessed.screen({
   autoPadding: true,
   smartCSR: true,
+  // useBCE: true,
+  // forceUnicode: true,
   tput: true,
   padding: 0,
   log: './debug.ui.log'
@@ -45,7 +47,6 @@ logo = blessed.box({
 })
 
 screen.append(logo);
-
 
 
 
@@ -113,9 +114,24 @@ renderIrc = function() {
     return item.date
   })
   _.each(items, function(item, index) {
-    var dateString = moment(item.date).format('\\[HH:mm\\]');'' + item.from + ''
-    var msg = '{#0000ff-fg}' + dateString + '{/#0000ff-fg} {#33ff33-fg}'+ item.from + ':{/#33ff33-fg} ' + item.message;
-    ircboxlist.addItem(msg);
+    var dateString = moment(item.date).format('\\[HH:mm\\]');'' + item.from + '';
+    var prefix = '{#0000ff-fg}' + dateString + '{/#0000ff-fg} {#33ff33-fg}'+ item.from + ':{/#33ff33-fg} ';
+    var fromFill = [];
+    fromFill[item.from.length] = "";
+    var prefixFill = '        {#333333-fg}' + fromFill.join("|") + '{/#333333-fg}  ';
+    var msg = prefix + item.message;
+    if (msg.length > 40) {
+      var partsString = s.wrap(msg, { width:140, cut:false, seperator:'____-____', preserveSpaces: true })
+      var parts = partsString.split('____-____');
+      // first line with date and name
+      ircboxlist.addItem(parts.shift());
+      // rest of the lines
+      _.each(parts, function(part){
+        ircboxlist.addItem('' + prefixFill + part);
+      })
+    } else {
+      ircboxlist.addItem(msg);    
+    }
     // screen.log(msg);
     ircbox.scrollTo(ircboxlist.items.length);
   })
@@ -255,22 +271,22 @@ var barbox = blessed.box({
   },
   padding: {
     top: 0,
-    left: 4,
-    right: 4,
-    bottom: 2
+    left: 2,
+    right: 2,
+    bottom: 1
   },
   scrollable: true,
   tags: true,
   // input:true,
-  // border: {
-  //   type: 'line'
-  // },
+  border: {
+    type: 'line'
+  },
   style: {
     fg: '#cccccc',
-    bg: '#111111',
+    bg: '#333333',
     border: {
-      fg: '#222222',
-      bg: '#111111'
+      fg: '#555555',
+      bg: '#333333'
     },
     focus: {
       bg: 'gray'
@@ -545,6 +561,35 @@ screen.currentFocus = bartextarea;
 
 // Render the screen.
 screen.render();
+
+
+// var alarm = blessed.prompt({
+//   top: '0',
+//   left: '0',
+//   align: 'left',
+//   width: '100%',
+//   height: '100%',
+//   content: 'alarm',
+//   tags: true,
+//   keys: true,
+//   input: true,
+//   padding: 1,
+//   style: {
+//     fg: '#33ff33',
+//     bg: 'black',
+//     focus: {
+//       bg: 'gray'
+//     },
+//     hover: {
+//       fg: 'yellow'
+//     }
+//   }
+// })
+
+// screen.append(alarm);
+
+// alarm.show()
+// alarm.focus()
 
 
 // ========================
