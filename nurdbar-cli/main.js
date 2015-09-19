@@ -283,7 +283,7 @@ var barbox = blessed.box({
   },
   style: {
     fg: '#cccccc',
-    bg: '#333333',
+    bg: '#555555',
     border: {
       fg: '#555555',
       bg: '#333333'
