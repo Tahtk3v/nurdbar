@@ -227,7 +227,7 @@ Meteor.methods({
   productList: function(){
     console.log('Populating ProductList');
 
-    Products.find({},{sort:{name:1, stock:1}}).forEach(function(item){
+    Products.find({stock:{$gt:0}},{sort:{name:1, stock:1}}).forEach(function(item){
       var row = '';
       row += s.lpad(item.stock, 4, " ");
       row += ' | ';
