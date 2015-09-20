@@ -123,9 +123,10 @@ renderIrc = function() {
     var prefixFill = '       ' + fromFill.join(" ") + ' ';
     var msg = prefixFill + item.message;
     screen.log('prefixFill:',prefixFill.length);
-    if (msg.length > 70) {
+    var maxWidth = ircboxlist.width-2 - prefixFill.length;
+    if (msg.length > maxWidth) {
       var maxWidth = ircboxlist.width-2 - prefixFill.length;
-      var partsString = s.wrap(msg.slice(prefixFill.length-1,-1), { width:maxWidth, cut:false, seperator:'____-____', preserveSpaces: true })
+      var partsString = s.wrap(msg, { width:maxWidth, cut:false, seperator:'____-____', preserveSpaces: true })
       var parts = partsString.split('____-____');
       screen.log('parts length: ',parts)
       // first line with date and name
