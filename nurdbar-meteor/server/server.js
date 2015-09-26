@@ -437,7 +437,7 @@ Meteor.methods({
 
   listTransactions: function(from){
     console.log('Populating Transactions');
-    Book.find({},{sort:{date:1}, limit:10}).forEach(function(item){
+    Book.find({},{sort:{date:-1}, limit:10}).forEach(function(item){
       var row = '';
       var delimiter = ' : ';
       row += moment(item.date).format('DD/MM hh:mm:ss');
