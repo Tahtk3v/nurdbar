@@ -331,10 +331,10 @@ Meteor.methods({
   },
 
   userTake: function(name,amount){
-    var deposit = parseFloat(amount) * -1;
+    var withdrawal = parseFloat(amount);
     var user = getUserWithName(name);
     if (user) {
-      user.cash = user.cash + deposit;
+      user.cash = user.cash - withdrawal;
       Barusers.update(user._id,{$set:{cash:user.cash}});
       Book.insert({
           type:'withdraw', 
@@ -435,9 +435,9 @@ Meteor.methods({
     }
   },
 
-  listTransactions: function(){
+  listTransactions: function(from){
     console.log('Populating Transactions');
-    Book.find({},{sort:{date:1}}).forEach(function(item){
+    Book.find({},{sort:{date:1}, limit:10}).forEach(function(item){
       var row = '';
       var delimiter = ' : ';
       row += moment(item.date).format('DD/MM hh:mm:ss');
@@ -455,8 +455,8 @@ Meteor.methods({
       row += s.pad(Barusers.findOne({_id:item.userId}).name, 12, " ","right");
       row += delimiter;
       row += s.sprintf('%.2f',item.price||0.0);
-
-      log(row);
+      // answer to user in pm
+      irc.say(from, str);
     })
   },
 

@@ -97,7 +97,7 @@ Meteor.startup(function() {
           }
 
           if (args[0] === '~transactions') {
-            Meteor.call('listTransactions')
+            Meteor.call('listTransactions', user)
           }
         }
 
