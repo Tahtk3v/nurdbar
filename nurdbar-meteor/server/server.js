@@ -456,7 +456,7 @@ Meteor.methods({
       row += delimiter;
       row += s.sprintf('%.2f',item.price||0.0);
       // answer to user in pm
-      irc.say(from, str);
+      irc.say(from, row);
     })
   },
 
