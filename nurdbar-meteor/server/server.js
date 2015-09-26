@@ -440,7 +440,7 @@ Meteor.methods({
     Book.find({},{sort:{date:-1}, limit:10}).forEach(function(item){
       var row = '';
       var delimiter = ' : ';
-      row += moment(item.date).format('DD/MM hh:mm:ss');
+      row += moment(item.date).format('DD/MM HH:mm:ss');
       row += delimiter;
       row += s.rpad(item.type, 8, " ");
       row += delimiter;
