@@ -7,7 +7,7 @@ Enter your username or scan your barcode to [ login ].
 
 If the bar changed to your name you are in.
 
-After login you can use following functions:
+After login you have 10 seconds to use one of the following functions:
 
 `````bash
 # deposit 10 euro
@@ -19,11 +19,11 @@ After login you can use following functions:
 # show balance
 > balance
 
-# buy a beer
-> [scan the barcode of the beer]
+# buy a product
+> [scan the barcode of the product]
 
-# buy another beer
-> [scan the barcode of the beer again]
+# buy another product
+> [scan the barcode of the other product]
 
 # sell 20 bottles of mate to the bar for 1.50 per piece
 # yes, you have to type out the barcode
