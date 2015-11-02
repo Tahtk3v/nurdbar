@@ -9,26 +9,30 @@ If the bar changed to your name you are in.
 
 After login you have 10 seconds to use one of the following functions:
 
+### Casual
 `````bash
-# add a user
-> useradd foo
-
 # show balance
 > balance
 
 # deposit 10 euro
 > deposit 10
 
-# withdraw 10 euro
-> take 10
-
 # buy a product
 > [scan the barcode of the product]
 
 # buy another product
 > [scan the barcode of the other product]
+`````
 
-# add a product
+### Advanced
+`````bash
+# add a user
+> useradd foo
+
+# withdraw 10 euro
+> take 10
+
+# add a product to the product-database
 # yes, you have to type out the barcode
 > productadd 0123456789 Name of the product
 
