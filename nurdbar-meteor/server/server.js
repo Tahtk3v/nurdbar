@@ -432,7 +432,7 @@ Meteor.methods({
       })
 
       if ( Products.update(product._id,{$set:_.omit(product,'_id')}) &&  Barusers.update(user._id,{$set:_.omit(user,'_id')}) ){
-        log(s.sprintf('The bar bought %d x %s for %.2f €uro from %s',amount,product.name,product.price, user.name));
+        log(s.sprintf('The bar bought %d x %s for %.2f euro from %s',amount,product.name,product.price, user.name));
       }
     }
   },
