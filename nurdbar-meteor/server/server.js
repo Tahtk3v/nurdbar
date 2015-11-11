@@ -74,7 +74,9 @@ Meteor.methods({
     if (Bar.user === true) {
         log("Login with valid user",1);
     }
-
+    if (scan === 'barusers') {
+      Meteor.call('userList')
+    }
     if (scan === 'cancel') {
       Bar.logout();
       Bon.reset();
