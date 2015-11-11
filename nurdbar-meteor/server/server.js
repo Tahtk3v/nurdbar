@@ -341,7 +341,7 @@ Meteor.methods({
       Book.insert({
           type:'withdraw', 
           date:new Date().getTime(), 
-          amount:deposit, 
+          amount:withdrawal, 
           productId:0, 
           userId:user._id,
           price:1
