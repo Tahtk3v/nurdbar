@@ -270,7 +270,7 @@ Meteor.methods({
 
   userAliases: function(name){
     var user = getUserWithName(name);
-    var aliases = user.aliases || [];
+    var aliases = user.aliases && user.aliases.length ? user.aliases : false;
     if (user && aliases){
       if (aliases.length === 1) {
         log(s.sprintf("User %s has aliases: %s", user.name, aliases[0]));
