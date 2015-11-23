@@ -199,7 +199,7 @@ Meteor.methods({
     var item = Products.findOne({barcode:barcode});
     if (!item) {
       if (Products.insert({barcode:barcode,stock:0,price:0.0,name:name||'unnamed'})) {
-        log(s.sprintf("Product %s added with barcode %s", name, barcode));
+        log(s.sprintf('Product "%s" added with barcode %s', name, barcode));
       };
     }
   },
@@ -218,7 +218,7 @@ Meteor.methods({
     barcode = barcode && barcode.trim() || "";
     var product = Products.findOne({$or:[{barcode:barcode},{name:barcode}] });
     if (product){
-      log(s.sprintf('%d of %s in stock for %.2f euro a piece.',product.stock,product.name, product.price))
+      log(s.sprintf('%d of "%s" in stock for %.2f euro a piece.',product.stock,product.name, product.price))
       return product && product.stock;
     } else {
       log('\x0309meh.\x03')
