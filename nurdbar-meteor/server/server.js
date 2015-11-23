@@ -279,7 +279,7 @@ Meteor.methods({
         log(s.sprintf("User %s has aliases: %s", user.name, aliasListString));
       } 
     } else if (user) {
-      log(s.sprintf("User %s has no aliases."));
+      log(s.sprintf("User %s has no aliases.", user.name));
     } else {
       log(s.sprintf("No user?"));
     }
