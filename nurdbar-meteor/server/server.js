@@ -137,8 +137,10 @@ Meteor.methods({
 
       } else if (scan.slice(0,10) === "productadd") {
         var product = scan.split(" ");
-        if (product[1] && _.rest(product,2)) {
-          Meteor.call('productAdd', product[1], _.rest(product,2).join(" "));
+        var productBarcode = product[1];
+        var productName = _.rest(product,2).join(" ");
+        if (productBarcode && productName) {
+          Meteor.call('productAdd', productBarcode, productName);
         }
 
       } else if (scan === 'balance') {

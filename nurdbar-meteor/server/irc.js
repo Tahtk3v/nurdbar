@@ -137,6 +137,32 @@ Meteor.startup(function() {
               Meteor.call('userAliasRemove',user,args[1])
             }
           }
+
+          if (args[0] === '~productadd' && args[1] && args[2]) {
+            if (!getUserWithName(user)) {
+              log(user + ' is not a baruser.');
+              return;
+            }
+            var productBarcode = args[1];
+            var productName = _.rest(args,2).join(" ");
+            if (productBarcode && productName) {
+              Meteor.call('productAdd', productBarcode, productName);
+            }
+          }
+
+          if (args[0] === '~sell' && args[1] && args[2] && args[3]) {
+            var username = getUserWithName(user)
+            if (!username) {
+              log(user + ' is not a baruser.');
+              return;
+            }
+            var productBarcode = args[1];
+            var productCount = parseInt(args[2]);
+            var productPrice = parseFloat(args[3]);
+            Meteor.call('registerBuy', productBarcode, username, productCount, productPrice);
+          }
+
+
         }
       }
     }
