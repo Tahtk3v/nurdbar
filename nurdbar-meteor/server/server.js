@@ -148,11 +148,11 @@ Meteor.methods({
         
       } else if (scan.slice(0,7) === 'deposit') {
         Bar.action = 'deposit'
-        if (scan === 'deposit') return;
-        scan = parseFloat(scan.split(" ")[1])
+        var scanSplit = scan.split(" ")
+        var cash = parseFloat(scanSplit[1])
         //Check if the command need a extra action
-        if (actionSplit.length === 2 && scan && scan > 0) {
-          Meteor.call('userDeposit', Bar.user.name, scan);
+        if (scanSplit.length === 2 && cash && cash > 0) {
+          Meteor.call('userDeposit', Bar.user.name, cash);
           Bar.reset();
         }
 
