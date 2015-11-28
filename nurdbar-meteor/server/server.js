@@ -161,7 +161,7 @@ Meteor.methods({
         actionSplit = scan.split(' ')
 
         //Check if the command need a extra action
-        if (actionSplit.length == 2 && parseInt(actionSplit[1])) {
+        if (actionSplit.length == 2 && parseFloat(actionSplit[1]) && parseFloat(actionSplit[1]) > 0) {
           Meteor.call('userTake', Bar.user.name, actionSplit[1]);
           Bar.reset();
         }
@@ -174,7 +174,7 @@ Meteor.methods({
     } else if (Bar.user && Bar.action) {
       //User is logged in and a second action is required
       if (Bar.action === 'deposit'){
-        if (parseInt(scan)) {
+        if (parseFloat(scan) && parseFloat(scan) > 0) {
           Meteor.call('userDeposit', Bar.user.name, scan);
           Bar.reset();
         }
