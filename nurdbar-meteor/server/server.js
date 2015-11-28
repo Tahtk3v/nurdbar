@@ -356,7 +356,7 @@ Meteor.methods({
           userId:user._id,
           price:1
       })
-      log(s.sprintf("Widthdraw %.2f euro for %s.", parseFloat(amount), user.name));
+      log(s.sprintf("Withdrew %.2f euro for %s.", parseFloat(amount), user.name));
       Meteor.call('userBalance',user.name);
     }
   },
