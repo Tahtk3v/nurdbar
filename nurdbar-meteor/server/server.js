@@ -147,12 +147,11 @@ Meteor.methods({
         Meteor.call("userBalance", Bar.user.name);
         
       } else if (scan.slice(0,7) === 'deposit') {
-        Bar.action = scan;
-        actionSplit = scan.split(' ')
-
+        Bar.action = 'deposit'
+        scan = parseFloat(actionSplit[1])
         //Check if the command need a extra action
-        if (actionSplit.length == 2 && parseInt(actionSplit[1])) {
-          Meteor.call('userDeposit', Bar.user.name, actionSplit[1]);
+        if (actionSplit.length === 2 && scan && scan > 0) {
+          Meteor.call('userDeposit', Bar.user.name, scan);
           Bar.reset();
         }
 
@@ -174,7 +173,8 @@ Meteor.methods({
     } else if (Bar.user && Bar.action) {
       //User is logged in and a second action is required
       if (Bar.action === 'deposit'){
-        if (parseFloat(scan) && parseFloat(scan) > 0) {
+        scan = parseFloat(scan)
+        if (scan && scan > 0) {
           Meteor.call('userDeposit', Bar.user.name, scan);
           Bar.reset();
         }
