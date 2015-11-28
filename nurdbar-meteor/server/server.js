@@ -180,6 +180,13 @@ Meteor.methods({
           Bar.reset();
         }
       }
+      if (Bar.action === 'take'){
+        scan = parseFloat(scan)
+        if (scan && scan > 0) {
+          Meteor.call('userTake', Bar.user.name, scan);
+          Bar.reset();
+        }
+      }
 
       if (Bar.action === 'sell'){
         scanSplit = scan.split(' ');
