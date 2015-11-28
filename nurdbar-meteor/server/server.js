@@ -157,12 +157,12 @@ Meteor.methods({
         }
 
       } else if (scan.slice(0,4) === 'take') {
-        Bar.action = scan;
-        actionSplit = scan.split(' ')
-
+        Bar.action = 'take';
+        var scanSplit = scan.split(" ")
+        var cash = parseFloat(scanSplit[1])
         //Check if the command need a extra action
-        if (actionSplit.length == 2 && parseFloat(actionSplit[1]) && parseFloat(actionSplit[1]) > 0) {
-          Meteor.call('userTake', Bar.user.name, actionSplit[1]);
+        if (scanSplit.length === 2 && cash && cash > 0) {
+          Meteor.call('userTake', Bar.user.name, cash);
           Bar.reset();
         }
 
