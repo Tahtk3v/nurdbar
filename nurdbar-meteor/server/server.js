@@ -243,7 +243,7 @@ Meteor.methods({
       var row = '';
       row += s.lpad(item.stock, 4, " ");
       row += ' | ';
-      row += s.rpad(s.sprintf('%.2f',product.price), 6, " ");
+      row += s.rpad(s.sprintf('%.2f',item.price), 6, " ");
       row += ' | ';
       row += s.rpad(item.name, 15, " ");
 
@@ -257,7 +257,7 @@ Meteor.methods({
       var row = '';
       row += s.lpad(item.stock, 4, " ");
       row += ' | ';
-      row += s.rpad(s.sprintf('%.2f',product.price), 6, " ");
+      row += s.rpad(s.sprintf('%.2f',item.price), 6, " ");
       row += ' | ';
       row += s.rpad(item.name, 15, " ");
 
