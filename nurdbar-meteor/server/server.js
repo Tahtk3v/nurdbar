@@ -243,7 +243,7 @@ Meteor.methods({
       var row = '';
       row += s.lpad(item.stock, 4, " ");
       row += ' | ';
-      row += s.rpad(s.sprintf('%.2f',item.price), 6, " ");
+      row += s.lpad(s.sprintf('%.2f',item.price), 6, " ");
       row += ' | ';
       row += s.rpad(item.name, 15, " ");
 
