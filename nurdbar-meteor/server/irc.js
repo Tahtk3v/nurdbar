@@ -77,7 +77,7 @@ Meteor.startup(function() {
           }
 
           if (args[0] === '~stock') {
-            Meteor.call('productList')
+            Meteor.call('productList', message)
           }
 
           if (args[0] === '~balance') {
@@ -107,6 +107,11 @@ Meteor.startup(function() {
             var queryList = message.replace('~stock ', '').split(',');
             console.log('query:', args[1], queryList);
             getStock(queryList);
+          }
+
+          if (args[0] === '~search' && args[1]) {
+            var query = message.replace('~search ', '')
+            Meteor.call('productSearch',query)
           }
 
           if (args[0] === '~balance' && args[1]) {

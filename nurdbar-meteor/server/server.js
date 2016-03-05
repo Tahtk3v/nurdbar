@@ -243,6 +243,22 @@ Meteor.methods({
       var row = '';
       row += s.lpad(item.stock, 4, " ");
       row += ' | ';
+      row += s.rpad(s.sprintf('%.2f',product.price), 6, " ");
+      row += ' | ';
+      row += s.rpad(item.name, 15, " ");
+
+      log(row);
+    });
+  },
+
+  productSearch: function(userQuery){
+    var query = new RegExp(userQuery,'i')
+    Products.find({$or:[{name:query}]}).forEach(function(item){
+      var row = '';
+      row += s.lpad(item.stock, 4, " ");
+      row += ' | ';
+      row += s.rpad(s.sprintf('%.2f',product.price), 6, " ");
+      row += ' | ';
       row += s.rpad(item.name, 15, " ");
 
       log(row);
