@@ -121,12 +121,19 @@ Meteor.startup(function() {
           }
 
           if (args[0] === '~buy' && args[1]) {
-            var queryList = message.replace('~buy ', '').split(',');
-            console.log('buy query:', queryList);
-            getBuy({
-              name: from,
-              items: queryList
-            });
+            var productCount = 0
+            var productName = null
+            if (!!parseInt(args[1])) {
+              // multiple items
+              productCount = parseInt(args[1])
+              productName = _.rest(args,2).join(" ")
+
+            } else {
+              // one item
+              productCount = 1
+              productName = _.rest(args,1).join(" ")
+            }
+            Meteor.call('registerSell',productName, from, productCount)
           }
 
           if (args[0] === '~aliasadd' && args[1]) {
