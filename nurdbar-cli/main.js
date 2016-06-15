@@ -466,7 +466,9 @@ function scan(data) {
 }
 
 
-
+function timeoutRefresh(){
+  ddpclient.call('barTimeoutRefresh')
+}
 
 
 
@@ -571,7 +573,7 @@ screen.key(['tab'], function(ch, key) {
     screen.currentFocus = bartextarea;
     bartextarea.focus();
   }
-
+  timeoutRefresh();
 });
 
 screen.key(['escape', 'q', 'C-c'], function(ch, key) {

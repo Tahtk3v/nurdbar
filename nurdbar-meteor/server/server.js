@@ -59,6 +59,11 @@ Meteor.methods({
     return Bon.list; 
   },
 
+  // reset the user timeout on interaction
+  barTimeoutRefresh: function(){
+    Bar.timeoutRefresh(true);
+  },
+
   //Incomming messages from bar console
   barMessage: function(data){
     Bar.timeoutRefresh(true);
