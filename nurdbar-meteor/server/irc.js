@@ -164,7 +164,7 @@ Meteor.startup(function() {
             var productBarcode = args[1];
             var productCount = parseInt(args[2]);
             var productPrice = parseFloat(args[3]);
-            Meteor.call('registerBuy', productBarcode, username, productCount, productPrice);
+            Meteor.call('registerBuy', productBarcode, username.name, productCount, productPrice);
           }
 
 
