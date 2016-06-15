@@ -33,10 +33,28 @@ After login you have 10 seconds to use one of the following functions:
 > take 10
 
 # add a product to the product-database
-# yes, you have to type out the barcode
 > productadd 0123456789 Name of the product
 
 # sell 20 bottles of mate to the bar for 1.50 per piece
-# yes, you have to type out the barcode
 > sell 012345789 20 1.50
+`````
+
+### Irc
+`````text
+~help
+~barusers
+~shame
+~stock
+~stock <name>
+~search <name>
+
+# user bound
+~balance
+~aliases
+~buy <name>
+~buy <amount> <name>
+~aliasadd <alias>
+~aliasremove <alias>
+~productadd <barcode> <name>
+~sell <amount[int]> <name> <price[float]>
 `````
