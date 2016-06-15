@@ -121,19 +121,24 @@ Meteor.startup(function() {
           }
 
           if (args[0] === '~buy' && args[1]) {
+            var username = getUserWithName(user)
+            if (!username) {
+              log(user + ' is not a baruser.');
+              return;
+            }
             var productCount = 0
             var productName = null
             if (!!parseInt(args[1])) {
-              // multiple items
+              // multiple items: ~buy 2 Club-Mate Cola
               productCount = parseInt(args[1])
               productName = _.rest(args,2).join(" ")
 
             } else {
-              // one item
+              // one item: ~buy Club-Mate Cola
               productCount = 1
               productName = _.rest(args,1).join(" ")
             }
-            Meteor.call('registerSell',productName, from, productCount)
+            Meteor.call('registerSell',productName, username.name, productCount)
           }
 
           if (args[0] === '~aliasadd' && args[1]) {
@@ -168,10 +173,12 @@ Meteor.startup(function() {
               log(user + ' is not a baruser.');
               return;
             }
-            var productBarcode = args[1];
-            var productCount = parseInt(args[2]);
-            var productPrice = parseFloat(args[3]);
+            var productCount = parseInt(args[1]);
+            var productPrice = parseFloat(args.pop());
+            var productBarcode = _.rest(args,2).join(" ");
+
             Meteor.call('registerBuy', productBarcode, username.name, productCount, productPrice);
+
           }
 
 
