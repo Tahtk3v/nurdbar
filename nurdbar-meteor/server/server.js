@@ -171,6 +171,17 @@ Meteor.methods({
           Bar.reset();
         }
 
+      } else if (scan.slice(0,4) === 'give') {
+        Bar.action = 'give';
+        var scanSplit = scan.split(" ")
+        var cash = parseFloat(scanSplit[2])
+        var receiver = String(scanSplit[1])
+        //Check if the command need a extra action
+        if (scanSplit.length === 3 && cash && cash > 0 ) {
+          Meteor.call('userGive', Bar.user.name, receiver, cash);
+          Bar.reset();
+        }
+
       } else if (product){
         Meteor.call('registerSell', product.barcode, Bar.user.name, 1);
         Bar.reset();
@@ -380,6 +391,52 @@ Meteor.methods({
       log(s.sprintf("Withdrew %.2f euro for %s.", parseFloat(amount), user.name));
       Meteor.call('userBalance',user.name);
     }
+  },
+
+  userGive: function(sender,receiver,amount){
+    amount = parseFloat(amount);
+    sender = getUserWithName(sender);
+    receiver = getUserWithName(receiver);
+
+    if (!amount){
+      log(s.sprintf("Amount not a valid float.");
+      return;
+    }
+    if (!sender || !receiver){
+      if (!receiver) {
+        log(s.sprintf("Receiver unknown."));
+      }
+      return;
+    }
+    if (sender.cash < amount) {
+      log(s.sprintf("User %s only has %.2f euro.", sender.name, sender.cash));
+      return;
+    }
+
+    sender.cash = sender.cash - amount;
+    receiver.cash = receiver.cash + amount;
+    Barusers.update(sender._id,{$set:{cash:sender.cash}});
+    Barusers.update(receiver._id,{$set:{cash:receiver.cash}});
+
+    Book.insert({
+        type:'withdraw', 
+        date:new Date().getTime(), 
+        amount:amount, 
+        productId:0, 
+        userId:sender._id,
+        price:1
+    })
+
+    Book.insert({
+        type:'deposit', 
+        date:new Date().getTime(), 
+        amount:amount, 
+        productId:0, 
+        userId:receiver._id,
+        price:1
+    })
+
+    log(s.sprintf("%s (%.2f) gave %.2f euro to %s (%.2f)", sender.name, sender.cash, amount, receiver.name, receiver.cash));
   },
 
   hallOfShame: function(){

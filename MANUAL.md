@@ -32,6 +32,9 @@ After login you have 10 seconds to use one of the following functions:
 # withdraw 10 euro
 > take 10
 
+# give 10 euro to user foo
+> give foo 10
+
 # add a product to the product-database
 > productadd 0123456789 Name of the product
 
@@ -50,9 +53,10 @@ After login you have 10 seconds to use one of the following functions:
 
 # user bound
 ~balance
-~aliases
+~give <name> <amount[float]>
 ~buy <name>
-~buy <amount> <name>
+~buy <amount[int]> <name>
+~aliases
 ~aliasadd <alias>
 ~aliasremove <alias>
 ~productadd <barcode> <name>

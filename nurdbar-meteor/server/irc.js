@@ -167,6 +167,21 @@ Meteor.startup(function() {
             }
           }
 
+          if (args[0] === '~give' && args[1] && args[2]) {
+            if (!getUserWithName(user)) {
+              log(user + ' is not a baruser.');
+              return;
+            }
+            var sendName = args[1];
+            var sendAmount = parseFloat(args[2]);
+            if (sendName && sendAmount) {
+              Meteor.call('userGive', user, sendName, sendAmount);
+            } else {
+              log('help: ~give username 0.01')
+            }
+          }
+
+
           if (args[0] === '~sell' && args[1] && args[2] && args[3]) {
             var username = getUserWithName(user)
             if (!username) {
