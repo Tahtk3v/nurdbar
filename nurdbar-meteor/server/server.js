@@ -399,7 +399,7 @@ Meteor.methods({
     receiver = getUserWithName(receiver);
 
     if (!amount){
-      log(s.sprintf("Amount not a valid float.");
+      log(s.sprintf("Amount not a valid float."));
       return;
     }
     if (!sender || !receiver){
