@@ -1,6 +1,6 @@
 # Nurdbar Manual
 
-## Right Colom Actions:  
+## Right Colom Actions
 Press [ Tab ] till you see a cursor on the right side.
 
 Enter your username or scan your barcode to [ login ].
@@ -42,7 +42,7 @@ After login you have 10 seconds to use one of the following functions:
 > sell 012345789 20 1.50
 `````
 
-### Irc
+### IRC
 `````text
 ~help
 ~barusers
