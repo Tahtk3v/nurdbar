@@ -99,10 +99,19 @@ Meteor.startup(function() {
           if (args[0] === '~transactions') {
             Meteor.call('listTransactions', user)
           }
+
         }
 
         if (args && args.length > 1) {
 
+          if (args[0] === '~help' && args[1]) {
+            if (args[1] === 'sell')
+              console.log('~sell <amount[int]> <name of product> <price[float]>', args[1], queryList);
+            if (args[1] === 'buy')
+              console.log('~buy <amount[int]> <name of product>', args[1], queryList);
+            if (args[1] === 'give')
+              console.log('~give <amount[float]> <username_of_receiver>', args[1], queryList);
+          }
           if (args[0] === '~stock' && args[1]) {
             var queryList = message.replace('~stock ', '').split(',');
             console.log('query:', args[1], queryList);
