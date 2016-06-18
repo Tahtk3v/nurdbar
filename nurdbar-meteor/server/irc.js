@@ -106,11 +106,11 @@ Meteor.startup(function() {
 
           if (args[0] === '~help' && args[1]) {
             if (args[1] === 'sell')
-              console.log('~sell <amount[int]> <name of product> <price[float]>', args[1], queryList);
+              log('~sell <amount[int]> <name of product> <price[float]>');
             if (args[1] === 'buy')
-              console.log('~buy <amount[int]> <name of product>', args[1], queryList);
+              log('~buy <amount[int]> <name of product>');
             if (args[1] === 'give')
-              console.log('~give <amount[float]> <username_of_receiver>', args[1], queryList);
+              log('~give <amount[float]> <username_of_receiver>');
           }
           if (args[0] === '~stock' && args[1]) {
             var queryList = message.replace('~stock ', '').split(',');
