@@ -150,6 +150,13 @@ Meteor.startup(function() {
             Meteor.call('registerSell',productName, username.name, productCount)
           }
 
+
+          if (args[0] === '~useradd' && args[1]) {
+            var name = args[1];
+            if (name) {
+              Meteor.call("userAdd", name); 
+            }
+          }
           if (args[0] === '~aliasadd' && args[1]) {
             var alias = args[1];
             if (alias) {
