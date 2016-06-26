@@ -59,6 +59,7 @@ After login you have 10 seconds to use one of the following functions:
 ~aliases
 ~aliasadd <alias>
 ~aliasremove <alias>
+~useradd <username/ircnick>
 ~productadd <barcode> <name of product>
 ~sell <amount[int]> <name of product> <price[float]>
 `````
