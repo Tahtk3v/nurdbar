@@ -484,7 +484,7 @@ Meteor.methods({
       {
         log(s.sprintf("Sold %s x %s to %s for %.2f euro.",amount, product.name, user.name, product.price * amount))
         if (user.cash < 0.0) {
-          log('!espeak ' + user.name + ' shame on you. Debt is ' + user.cash);
+          log(s.sprintf('!espeak %s shame on you. Debt is %.2f', user.name, user.cash));
         }
       }
       if (!nobon) {
