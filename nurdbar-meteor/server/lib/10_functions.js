@@ -49,11 +49,11 @@ getBuy = function(obj) { // {name:"",items:[]}
 }
 
 getUserWithName = function(query) {
-  query = query;
+  query = String(query);
   if (!query) return false;
   return Barusers.findOne({
     $or: [{
-      name: query.toLowerCase()
+      name: new RegExp(query,"i")
     }, {
       barcode: query
     },{

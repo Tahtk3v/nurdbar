@@ -77,7 +77,7 @@ Meteor.startup(function() {
           }
 
           if (args[0] === '~stock') {
-            Meteor.call('productList')
+            Meteor.call('productList', message)
           }
 
           if (args[0] === '~balance') {
@@ -99,14 +99,28 @@ Meteor.startup(function() {
           if (args[0] === '~transactions') {
             Meteor.call('listTransactions', user)
           }
+
         }
 
         if (args && args.length > 1) {
 
+          if (args[0] === '~help' && args[1]) {
+            if (args[1] === 'sell')
+              log('~sell <amount[int]> <name of product> <price[float]>');
+            if (args[1] === 'buy')
+              log('~buy <amount[int]> <name of product>');
+            if (args[1] === 'give')
+              log('~give <amount[float]> <username_of_receiver>');
+          }
           if (args[0] === '~stock' && args[1]) {
             var queryList = message.replace('~stock ', '').split(',');
             console.log('query:', args[1], queryList);
             getStock(queryList);
+          }
+
+          if (args[0] === '~search' && args[1]) {
+            var query = message.replace('~search ', '')
+            Meteor.call('productSearch',query)
           }
 
           if (args[0] === '~balance' && args[1]) {
@@ -116,14 +130,33 @@ Meteor.startup(function() {
           }
 
           if (args[0] === '~buy' && args[1]) {
-            var queryList = message.replace('~buy ', '').split(',');
-            console.log('buy query:', queryList);
-            getBuy({
-              name: from,
-              items: queryList
-            });
+            var username = getUserWithName(user)
+            if (!username) {
+              log(user + ' is not a baruser.');
+              return;
+            }
+            var productCount = 0
+            var productName = null
+            if (!!parseInt(args[1])) {
+              // multiple items: ~buy 2 Club-Mate Cola
+              productCount = parseInt(args[1])
+              productName = _.rest(args,2).join(" ")
+
+            } else {
+              // one item: ~buy Club-Mate Cola
+              productCount = 1
+              productName = _.rest(args,1).join(" ")
+            }
+            Meteor.call('registerSell',productName, username.name, productCount)
           }
 
+
+          if (args[0] === '~useradd' && args[1]) {
+            var name = args[1];
+            if (name) {
+              Meteor.call("userAdd", name); 
+            }
+          }
           if (args[0] === '~aliasadd' && args[1]) {
             var alias = args[1];
             if (alias) {
@@ -137,6 +170,49 @@ Meteor.startup(function() {
               Meteor.call('userAliasRemove',user,args[1])
             }
           }
+
+          if (args[0] === '~productadd' && args[1] && args[2]) {
+            if (!getUserWithName(user)) {
+              log(user + ' is not a baruser.');
+              return;
+            }
+            var productBarcode = args[1];
+            var productName = _.rest(args,2).join(" ");
+            if (productBarcode && productName) {
+              Meteor.call('productAdd', productBarcode, productName);
+            }
+          }
+
+          if (args[0] === '~give' && args[1] && args[2]) {
+            if (!getUserWithName(user)) {
+              log(user + ' is not a baruser.');
+              return;
+            }
+            var sendName = args[1];
+            var sendAmount = parseFloat(args[2]);
+            if (sendName && sendAmount) {
+              Meteor.call('userGive', user, sendName, sendAmount);
+            } else {
+              log('help: ~give username 0.01')
+            }
+          }
+
+
+          if (args[0] === '~sell' && args[1] && args[2] && args[3]) {
+            var username = getUserWithName(user)
+            if (!username) {
+              log(user + ' is not a baruser.');
+              return;
+            }
+            var productCount = parseInt(args[1]);
+            var productPrice = parseFloat(args.pop());
+            var productBarcode = _.rest(args,2).join(" ");
+
+            Meteor.call('registerBuy', productBarcode, username.name, productCount, productPrice);
+
+          }
+
+
         }
       }
     }

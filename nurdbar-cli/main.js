@@ -122,13 +122,13 @@ renderIrc = function() {
     fromFill[item.from.length] = "";
     var prefixFill = '       ' + fromFill.join(" ") + ' ';
     var msg = prefixFill + item.message;
-    screen.log('prefixFill:',prefixFill.length);
+    //screen.log('prefixFill:',prefixFill.length);
     var maxWidth = ircboxlist.width-2 - prefixFill.length;
     if (msg.length > maxWidth) {
       var maxWidth = ircboxlist.width-2 - prefixFill.length;
       var partsString = s.wrap(msg, { width:maxWidth, cut:false, seperator:'____-____', preserveSpaces: true })
       var parts = partsString.split('____-____');
-      screen.log('parts length: ',parts)
+      //screen.log('parts length: ',parts)
       // first line with date and name
       var firstPart = parts.shift() || "";
       bucket.push(prefix + firstPart)
@@ -150,7 +150,7 @@ renderIrc = function() {
   ircbox.scrollTo(ircboxlist.height);
 
   // IRCFEED_LIMIT = 3;
-  screen.log(ircboxlist.height);
+  //screen.log(ircboxlist.height);
 
   screen.render();
 }
@@ -445,6 +445,12 @@ bartextarea.key(['escape', 'C-c'], function(ch, key) {
 });
 
 function scan(data) {
+  // append if something got already entered
+  if (bartextarea.value.length > 2) {
+    bartextarea.value = bartextarea.value + ' ' + data + ' ';
+  } 
+
+  // otherwise send it to the c&c
   screen.log(JSON.stringify(data, null, 2));
   ddpclient.call(
     'barMessage', [{
@@ -460,7 +466,9 @@ function scan(data) {
 }
 
 
-
+function timeoutRefresh(){
+  ddpclient.call('barTimeoutRefresh')
+}
 
 
 
@@ -557,7 +565,7 @@ setInterval(renderDDP, 1000);
 // });
 
 screen.key(['tab'], function(ch, key) {
-  screen.log('tabbed screen');
+  // screen.log('tabbed screen');
   if (screen.currentFocus === bartextarea) {
     screen.currentFocus = irctextarea;
     irctextarea.focus();
@@ -565,7 +573,7 @@ screen.key(['tab'], function(ch, key) {
     screen.currentFocus = bartextarea;
     bartextarea.focus();
   }
-
+  timeoutRefresh();
 });
 
 screen.key(['escape', 'q', 'C-c'], function(ch, key) {

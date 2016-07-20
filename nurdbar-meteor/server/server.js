@@ -59,6 +59,11 @@ Meteor.methods({
     return Bon.list; 
   },
 
+  // reset the user timeout on interaction
+  barTimeoutRefresh: function(){
+    Bar.timeoutRefresh(true);
+  },
+
   //Incomming messages from bar console
   barMessage: function(data){
     Bar.timeoutRefresh(true);
@@ -137,30 +142,43 @@ Meteor.methods({
 
       } else if (scan.slice(0,10) === "productadd") {
         var product = scan.split(" ");
-        if (product[1] && _.rest(product,2)) {
-          Meteor.call('productAdd', product[1], _.rest(product,2).join(" "));
+        var productBarcode = product[1];
+        var productName = _.rest(product,2).join(" ");
+        if (productBarcode && productName) {
+          Meteor.call('productAdd', productBarcode, productName);
         }
 
       } else if (scan === 'balance') {
         Meteor.call("userBalance", Bar.user.name);
         
       } else if (scan.slice(0,7) === 'deposit') {
-        Bar.action = scan;
-        actionSplit = scan.split(' ')
-
+        Bar.action = 'deposit'
+        var scanSplit = scan.split(" ")
+        var cash = parseFloat(scanSplit[1])
         //Check if the command need a extra action
-        if (actionSplit.length == 2 && parseInt(actionSplit[1])) {
-          Meteor.call('userDeposit', Bar.user.name, actionSplit[1]);
+        if (scanSplit.length === 2 && cash && cash > 0) {
+          Meteor.call('userDeposit', Bar.user.name, cash);
           Bar.reset();
         }
 
       } else if (scan.slice(0,4) === 'take') {
-        Bar.action = scan;
-        actionSplit = scan.split(' ')
-
+        Bar.action = 'take';
+        var scanSplit = scan.split(" ")
+        var cash = parseFloat(scanSplit[1])
         //Check if the command need a extra action
-        if (actionSplit.length == 2 && parseInt(actionSplit[1])) {
-          Meteor.call('userTake', Bar.user.name, actionSplit[1]);
+        if (scanSplit.length === 2 && cash && cash > 0) {
+          Meteor.call('userTake', Bar.user.name, cash);
+          Bar.reset();
+        }
+
+      } else if (scan.slice(0,4) === 'give') {
+        Bar.action = 'give';
+        var scanSplit = scan.split(" ")
+        var cash = parseFloat(scanSplit[2])
+        var receiver = String(scanSplit[1])
+        //Check if the command need a extra action
+        if (scanSplit.length === 3 && cash && cash > 0 ) {
+          Meteor.call('userGive', Bar.user.name, receiver, cash);
           Bar.reset();
         }
 
@@ -172,8 +190,16 @@ Meteor.methods({
     } else if (Bar.user && Bar.action) {
       //User is logged in and a second action is required
       if (Bar.action === 'deposit'){
-        if (parseInt(scan)) {
+        scan = parseFloat(scan)
+        if (scan && scan > 0) {
           Meteor.call('userDeposit', Bar.user.name, scan);
+          Bar.reset();
+        }
+      }
+      if (Bar.action === 'take'){
+        scan = parseFloat(scan)
+        if (scan && scan > 0) {
+          Meteor.call('userTake', Bar.user.name, scan);
           Bar.reset();
         }
       }
@@ -232,6 +258,22 @@ Meteor.methods({
     Products.find({stock:{$gt:0}},{sort:{name:1, stock:1}}).forEach(function(item){
       var row = '';
       row += s.lpad(item.stock, 4, " ");
+      row += ' | ';
+      row += s.lpad(s.sprintf('%.2f',item.price), 6, " ");
+      row += ' | ';
+      row += s.rpad(item.name, 15, " ");
+
+      log(row);
+    });
+  },
+
+  productSearch: function(userQuery){
+    var query = new RegExp(userQuery,'i')
+    Products.find({$or:[{name:query}]}).forEach(function(item){
+      var row = '';
+      row += s.lpad(item.stock, 4, " ");
+      row += ' | ';
+      row += s.lpad(s.sprintf('%.2f',item.price), 6, " ");
       row += ' | ';
       row += s.rpad(item.name, 15, " ");
 
@@ -346,9 +388,55 @@ Meteor.methods({
           userId:user._id,
           price:1
       })
-      log(s.sprintf("Widthdraw %.2f euro for %s.", parseFloat(amount), user.name));
+      log(s.sprintf("Withdrew %.2f euro for %s.", parseFloat(amount), user.name));
       Meteor.call('userBalance',user.name);
     }
+  },
+
+  userGive: function(sender,receiver,amount){
+    amount = parseFloat(amount);
+    sender = getUserWithName(sender);
+    receiver = getUserWithName(receiver);
+
+    if (!amount){
+      log(s.sprintf("Amount not a valid float."));
+      return;
+    }
+    if (!sender || !receiver){
+      if (!receiver) {
+        log(s.sprintf("Receiver unknown."));
+      }
+      return;
+    }
+    if (sender.cash < amount) {
+      log(s.sprintf("User %s only has %.2f euro.", sender.name, sender.cash));
+      return;
+    }
+
+    sender.cash = sender.cash - amount;
+    receiver.cash = receiver.cash + amount;
+    Barusers.update(sender._id,{$set:{cash:sender.cash}});
+    Barusers.update(receiver._id,{$set:{cash:receiver.cash}});
+
+    Book.insert({
+        type:'withdraw', 
+        date:new Date().getTime(), 
+        amount:amount, 
+        productId:0, 
+        userId:sender._id,
+        price:1
+    })
+
+    Book.insert({
+        type:'deposit', 
+        date:new Date().getTime(), 
+        amount:amount, 
+        productId:0, 
+        userId:receiver._id,
+        price:1
+    })
+
+    log(s.sprintf("%s (%.2f) gave %.2f euro to %s (%.2f)", sender.name, sender.cash, amount, receiver.name, receiver.cash));
   },
 
   hallOfShame: function(){
@@ -396,7 +484,7 @@ Meteor.methods({
       {
         log(s.sprintf("Sold %s x %s to %s for %.2f euro.",amount, product.name, user.name, product.price * amount))
         if (user.cash < 0.0) {
-          log('!speak ' + user.name + ' shame on you.');
+          log('!espeak ' + user.name + ' shame on you. Debt is ' + user.cash);
         }
       }
       if (!nobon) {

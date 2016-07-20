@@ -1,6 +1,6 @@
 # Nurdbar Manual
 
-## Right Colom Actions:  
+## Right Colom Actions
 Press [ Tab ] till you see a cursor on the right side.
 
 Enter your username or scan your barcode to [ login ].
@@ -32,11 +32,34 @@ After login you have 10 seconds to use one of the following functions:
 # withdraw 10 euro
 > take 10
 
+# give 10 euro to user foo
+> give foo 10
+
 # add a product to the product-database
-# yes, you have to type out the barcode
 > productadd 0123456789 Name of the product
 
 # sell 20 bottles of mate to the bar for 1.50 per piece
-# yes, you have to type out the barcode
 > sell 012345789 20 1.50
+`````
+
+### IRC
+`````text
+~help
+~barusers
+~shame
+~stock
+~stock <name>
+~search <name>
+
+# user bound
+~balance
+~give <amount[float]> <username-of-receiver>
+~buy <name of product>
+~buy <amount[int]> <name of product>
+~aliases
+~aliasadd <alias>
+~aliasremove <alias>
+~useradd <username/ircnick>
+~productadd <barcode> <name of product>
+~sell <amount[int]> <name of product> <price[float]>
 `````
