@@ -215,7 +215,7 @@ Meteor.startup(function() {
             var productCount = parseInt(args[1]);
             var productPrice = parseFloat(args.pop());
             var productBarcode = _.rest(args,2).join(" ");
-            if (productPrice < 0) {
+            if (productPrice < 0 || productCount < 0) {
               log('why so negative?')
               return;
             }
