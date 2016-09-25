@@ -190,6 +190,9 @@ Meteor.startup(function() {
             }
             var sendName = args[1];
             var sendAmount = parseFloat(args[2]);
+            if (sendAmount < 0) {
+              log('why so negative?')
+            }
             if (sendName && sendAmount) {
               Meteor.call('userGive', user, sendName, sendAmount);
             } else {
