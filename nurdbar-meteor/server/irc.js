@@ -147,6 +147,10 @@ Meteor.startup(function() {
               productCount = 1
               productName = _.rest(args,1).join(" ")
             }
+            if (productCount < 0) {
+              log('why so negative?')
+              return;
+            }
             Meteor.call('registerSell',productName, username.name, productCount)
           }
 
@@ -211,7 +215,10 @@ Meteor.startup(function() {
             var productCount = parseInt(args[1]);
             var productPrice = parseFloat(args.pop());
             var productBarcode = _.rest(args,2).join(" ");
-
+            if (productPrice < 0) {
+              log('why so negative?')
+              return;
+            }
             Meteor.call('registerBuy', productBarcode, username.name, productCount, productPrice);
 
           }
