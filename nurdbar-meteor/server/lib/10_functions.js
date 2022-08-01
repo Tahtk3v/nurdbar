@@ -5,8 +5,8 @@ log = function(str, internal) {
 
   console.log(str);
 
-  if (internal != true)
-    irc.say(Meteor.settings.channels[0], str);
+  if (internal != true) 
+		irc.send('NOTICE',Meteor.settings.channels[0], ' ' + str);
 
   str = str.replace(/(\x03\d{0,2}(,\d{0,2})?|\u200B)/g, '');
 
