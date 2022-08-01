@@ -1,29 +1,32 @@
 {
+  "lockfileVersion": 1,
   "dependencies": {
     "irc": {
       "version": "0.3.9",
+      "resolved": "https://registry.npmjs.org/irc/-/irc-0.3.9.tgz",
+      "integrity": "sha512-iQ+5GW8gCnsh+/J2vC6uCMev5/G7j7Avj4MqIJcOoVFbTObYWaltfldjtyYNglo7FPSGGBrqw/oxdt32wGnvgw==",
       "dependencies": {
         "ansi-color": {
-          "version": "0.2.1"
+          "version": "0.2.1",
+          "resolved": "https://registry.npmjs.org/ansi-color/-/ansi-color-0.2.1.tgz",
+          "integrity": "sha512-bF6xLaZBLpOQzgYUtYEhJx090nPSZk1BQ/q2oyBK9aMMcJHzx9uXGCjI2Y+LebsN4Jwoykr0V9whbPiogdyHoQ=="
         },
         "irc-colors": {
           "version": "1.1.0",
+          "resolved": "https://registry.npmjs.org/irc-colors/-/irc-colors-1.1.0.tgz",
+          "integrity": "sha512-wLHdXepwTqRdp9O91P0+FqKregjQjlUJpaN+piOyI0xDmoFul7reL5Mjf/eKOATM7RnMo+NiIwbSwWAR6+4QsA==",
           "dependencies": {
             "hashish": {
               "version": "0.0.4",
+              "resolved": "https://registry.npmjs.org/hashish/-/hashish-0.0.4.tgz",
+              "integrity": "sha512-xyD4XgslstNAs72ENaoFvgMwtv8xhiDtC2AtzCG+8yF7W/Knxxm9BX+e2s25mm+HxMKh0rBmXVOEGF3zNImXvA==",
               "dependencies": {
                 "traverse": {
-                  "version": "0.6.6"
+                  "version": "0.6.6",
+                  "resolved": "https://registry.npmjs.org/traverse/-/traverse-0.6.6.tgz",
+                  "integrity": "sha512-kdf4JKs8lbARxWdp7RKdNzoJBhGUcIalSYibuGyHJbmk40pOysQ0+QPvlkCOICOivDWU2IJo2rkrxyTK2AH4fw=="
                 }
               }
-            }
-          }
-        },
-        "iconv": {
-          "version": "2.1.6",
-          "dependencies": {
-            "nan": {
-              "version": "1.6.2"
             }
           }
         }
