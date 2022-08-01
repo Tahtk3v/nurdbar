@@ -6,13 +6,13 @@
   "license": "MIT",
   "repository": "nooitaf/nurdbar",
   "dependencies": {
-    "serialport": "latest",
-    "ddp": "latest",
+    "blessed": "latest",
+    "ddp": "^0.9.4",
     "ddp-random": "latest",
     "moment": "latest",
+    "serialport": "latest",
     "underscore": "latest",
-    "underscore.string": "latest",
-    "blessed": "latest"
+    "underscore.string": "latest"
   },
   "engines": {
     "node": ">= 0.10.0"
