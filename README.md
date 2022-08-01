@@ -34,7 +34,7 @@ Edit `settings.json`:
 Start the server
 - option 1, using meteors build-in mongodb
 ```bash
-meteor npm i 										# run this once to install npm packages
+meteor npm i                    # run this once to install npm packages
 meteor --settings settings.json # to start the server
 ```
 - option 2, using your own mongodb
