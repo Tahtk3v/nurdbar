@@ -53,7 +53,7 @@ After login you have 10 seconds to use one of the following functions:
 
 # user bound
 ~balance
-~give <amount[float]> <username-of-receiver>
+~give <username-of-receiver> <amount[float]>
 ~buy <name of product>
 ~buy <amount[int]> <name of product>
 ~aliases
