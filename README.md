@@ -36,6 +36,8 @@ Start the server
 ```bash
 # run this once to install npm packages
 meteor npm i
+# Run this to install babel
+meteor npm install --save @babel/runtime
 # to start the server
 meteor --settings settings.json 
 ```
