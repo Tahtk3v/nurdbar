@@ -618,26 +618,29 @@ screen.render();
 // alarm.focus()
 
 
-// ========================
-// SERIAL 
-// ========================
-// var SerialPort = require("serialport").SerialPort
-// var serialPort = new SerialPort(config.serialport, {
-   // baudrate: 9600
- // },
-  //false, // this is the openImmediately flag [default is true]
-  //function(error) {
-    //console.log(error);
- // }
-//);
 
-//serialPort.open(function(error) {
-  //if (error) {
-    //console.log('failed to open: ' + error);
-  //} else {
-    //console.log('open');
-    //serialPort.on('data', function(data) {
-      //scan(new Buffer(data).toString('ascii'))
-    //});
-  //}
-//});
+// ========================
+// SERIAL
+// ========================
+var SerialPort = require("serialport").SerialPort
+var serialPort = new SerialPort({
+    baudRate: 9600,
+    path: config.serialport,
+    autoOpen: false
+  },
+  function(error) {
+    console.log(error);
+  }
+);
+
+serialPort.open(function(error) {
+  if (error) {
+    console.log('failed to open: ' + error);
+  } else {
+    console.log('open');
+    serialPort.on('data', function(data) {
+      scan(new Buffer(data).toString('ascii'))
+    });
+  }
+});
+
